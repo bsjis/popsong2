@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>고등학생 팝송 리스닝 & 어휘 과제 App</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
+    body { font-family: 'Noto Sans KR', sans-serif; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen py-8 px-4 sm:px-6 lg:px-8">
+
+  <div class="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-100">
+    
+    <!-- 헤더 영역 -->
+    <div class="bg-indigo-600 text-white p-6 sm:p-8 text-center">
+      <span class="inline-block px-3 py-1 bg-indigo-500 text-indigo-100 text-xs font-semibold rounded-full mb-2">High School English Interactive Task</span>
+      <h1 class="text-2xl sm:text-3xl font-bold tracking-tight">팝송 리스닝 & 어휘 과제</h1>
+      <p class="mt-2 text-indigo-200 text-sm sm:text-base">원하는 팝송을 선택하여 학습하세요!</p>
+    </div>
+
+    <form id="assignmentForm" onsubmit="handleSubmit(event)" class="p-6 sm:p-8 space-y-8">
+      
+      <!-- 0. 학생 정보 입력 & 곡 선택 -->
+      <section class="bg-indigo-50 p-4 sm:p-6 rounded-xl border border-indigo-100 space-y-4">
+        <h2 class="text-lg font-bold text-indigo-900 flex items-center">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+          기본 정보 & 학습 곡 선택
+        </h2>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label for="studentId" class="block text-sm font-medium text-slate-700 mb-1">학번 (예: 10101)</label>
+            <input type="text" id="studentId" required placeholder="학번을 입력하세요" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none transition bg-white">
+          </div>
+          <div>
+            <label for="studentName" class="block text-sm font-medium text-slate-700 mb-1">이름</label>
+            <input type="text" id="studentName" required placeholder="이름을 입력하세요" class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none transition bg-white">
+          </div>
+        </div>
+
+        <div>
+          <label for="songSelect" class="block text-sm font-bold text-indigo-950 mb-1">🎵 학습할 팝송 선택</label>
+          <select id="songSelect" onchange="loadSongData()" class="w-full px-4 py-2.5 border border-indigo-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none font-medium text-sm bg-white text-indigo-900 shadow-sm">
+            <!-- JavaScript 동적 생성 -->
+          </select>
+        </div>
+      </section>
+
+      <!-- 상단 플레이어 -->
+      <section class="space-y-2">
+        <h2 class="text-lg font-bold text-slate-900 flex items-center">
+          <svg class="w-5 h-5 mr-2 text-red-500" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          Lyric Video 감상하기
+        </h2>
+        
+        <a id="songYoutubeLink" href="#" target="_blank" rel="noopener noreferrer" class="group relative block w-full aspect-video rounded-xl overflow-hidden shadow-md bg-slate-900 border border-slate-200">
+          <img id="songThumbnail" src="" alt="Song Thumbnail" class="w-full h-full object-cover group-hover:scale-105 transition duration-300 opacity-80 group-hover:opacity-100">
+          <div class="absolute inset-0 flex flex-col items-center justify-center bg-black/40 group-hover:bg-black/30 transition">
+            <div class="w-16 h-16 bg-red-600 group-hover:bg-red-700 text-white rounded-full flex items-center justify-center shadow-lg transition transform group-hover:scale-110">
+              <svg class="w-8 h-8 fill-current ml-1" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+            <span class="mt-3 text-white font-bold text-sm bg-black/70 px-4 py-2 rounded-full backdrop-blur-sm border border-white/20">
+              ▶ 클릭하여 유튜브에서 노래 듣기 (새 창) ↗
+            </span>
+          </div>
+        </a>
+      </section>
+
+      <hr class="border-slate-200">
+
+      <!-- Part 1: Listening Gap-Fill (5문항 객관식) -->
+      <section class="space-y-4">
+        <div>
+          <h2 class="text-xl font-bold text-slate-900">Part 1. Listening Gap-Fill (5문항)</h2>
+          <p class="text-sm text-slate-500">노래를 들으며 알맞은 단어를 보기 중에서 선택하세요.</p>
+        </div>
+        <div id="part1Container" class="space-y-4 bg-slate-50 p-5 rounded-xl border border-slate-200">
+          <!-- 동적 생성 -->
+        </div>
+      </section>
+
+      <!-- Part 2: Vocabulary Match (5문항 객관식) -->
+      <section class="space-y-4">
+        <div>
+          <h2 class="text-xl font-bold text-slate-900">Part 2. Vocabulary Match (5문항)</h2>
+          <p class="text-sm text-slate-500">가사 속 주요 어휘의 알맞은 뜻을 선택하세요.</p>
+        </div>
+        <div id="part2Container" class="space-y-4 bg-slate-50 p-5 rounded-xl border border-slate-200">
+          <!-- 동적 생성 -->
+        </div>
+      </section>
+
+      <!-- Part 3: Dictation & Key Expressions (5문항 단답형) -->
+      <section class="space-y-4">
+        <div>
+          <h2 class="text-xl font-bold text-slate-900">Part 3. Dictation & Key Expressions (5문항)</h2>
+          <p class="text-sm text-slate-500">음원을 들으며 빈칸에 들어갈 가사 구문이나 핵심 표현을 직접 입력하세요.</p>
+        </div>
+        <div id="part3Container" class="space-y-4 bg-slate-50 p-5 rounded-xl border border-slate-200">
+          <!-- 동적 생성 -->
+        </div>
+      </section>
+
+      <!-- Part 4: Song Analysis & Reflection -->
+      <section class="space-y-4">
+        <div>
+          <h2 class="text-xl font-bold text-slate-900">Part 4. Song Analysis & Reflection</h2>
+          <p class="text-sm text-slate-500">노래 전체 가사 중 가장 마음에 드는 가사 한 줄과 그 이유를 자유롭게 작성하세요.</p>
+        </div>
+        <div>
+          <textarea id="reflection" rows="4" required placeholder="예: 가장 기억에 남는 가사 한 구절과 그 이유를 작성하세요." class="w-full p-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none text-sm bg-white"></textarea>
+        </div>
+      </section>
+
+      <!-- 제출 후 공개 영역 (정답 및 가사 전체 원문/해석) -->
+      <section id="postSubmitLyrics" class="hidden bg-emerald-50 rounded-xl p-5 border border-emerald-200 space-y-4">
+        <h2 class="text-lg font-bold text-emerald-900 flex items-center">
+          <svg class="w-5 h-5 mr-2 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          제출 완료! 전체 가사 원문 및 해석 참고자료
+        </h2>
+        <div id="lyricsContainer" class="space-y-3 text-sm leading-relaxed text-slate-700 max-h-96 overflow-y-auto pr-2">
+          <!-- 동적 생성 (곡 전체 가사) -->
+        </div>
+      </section>
+
+      <!-- 제출 버튼 -->
+      <div class="pt-4">
+        <button type="submit" id="submitBtn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3.5 px-4 rounded-xl shadow-lg hover:shadow-indigo-200 transition duration-200 flex justify-center items-center">
+          <span>과제 제출하기</span>
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+  <script>
+    const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbxN4jDgfG7PHOBEbsw22w7hTOkAot7tOC45mTPfDNZXU2jPSh_z1aB9mEBXx5DjJMpk5A/exec";
+
+    // 🎵 팝송 통합 데이터베이스 (Part 1: 5개, Part 2: 5개, Part 3: 5개 구성)
+    const songDatabase = [
+      {
+        id: "s1",
+        title: "1. Bruno Mars - Count on Me",
+        videoId: "Yc6T9iY9lOU",
+        part1: [
+          { q: "If you ever find yourself stuck in the middle of the sea, I'll sail the world to _____ you.", opts: [{t:"find",v:"a"},{t:"hide",v:"b"},{t:"leave",v:"c"}], ans: "a" },
+          { q: "If you ever find yourself lost in the dark and you can't see, I'll be the _____ to guide you.", opts: [{t:"light",v:"a"},{t:"wind",v:"b"},{t:"fire",v:"c"}], ans: "a" },
+          { q: "You can count on me like one, two, three, I'll be _____.", opts: [{t:"there",v:"a"},{t:"here",v:"b"},{t:"gone",v:"c"}], ans: "a" },
+          { q: "And I know when I need it, I can count on you like four, three, two, you'll be _____.", opts: [{t:"there",v:"a"},{t:"here",v:"b"},{t:"back",v:"c"}], ans: "a" },
+          { q: "'Cause that's what _____ are supposed to do, oh yeah.", opts: [{t:"friends",v:"a"},{t:"lovers",v:"b"},{t:"teachers",v:"c"}], ans: "a" }
+        ],
+        part2: [
+          { word: "count on", opts: [{t:"~에 의지하다, ~을 믿다",v:"a"},{t:"~을 세다",v:"b"},{t:"~을 포기하다",v:"c"}], ans: "a" },
+          { word: "guide", opts: [{t:"안내하다, 인도하다",v:"a"},{t:"경고하다",v:"b"},{t:"방해하다",v:"c"}], ans: "a" },
+          { word: "remind", opts: [{t:"상기시키다, 떠올리게 하다",v:"a"},{t:"잊어버리다",v:"b"},{t:"용서하다",v:"c"}], ans: "a" },
+          { word: "shoulder", opts: [{t:"어깨",v:"a"},{t:"발목",v:"b"},{t:"무릎",v:"c"}], ans: "a" },
+          { word: "supposed to", opts: [{t:"~하기로 되어 있다, ~해야 한다",v:"a"},{t:"~를 거절하다",v:"b"},{t:"~를 시작하다",v:"c"}], ans: "a" }
+        ],
+        part3: [
+          { q: "바다 한가운데 갇혔을 때 찾아가겠다는 가사: I'll _____ the world to find you.", ans: "sail" },
+          { q: "어둠 속에서 길을 잃었을 때 인도해 주는 존재: I'll be the _____ to guide you.", ans: "light" },
+          { q: "네가 잠들도록 상기시켜주겠다는 가사: I'll _____ you how much you really mean to me.", ans: "remind" },
+          { q: "울고 싶을 때 빌려주는 부위: You'll never let go, never say goodbye, you know you can cry on my _____.", ans: "shoulder" },
+          { q: "가사 완성하기: You can _____ _____ _____ like one, two, three, I'll be _____.", ans: "count on me there" }
+        ],
+        lyrics: [
+          { en: "If you ever find yourself stuck in the middle of the sea, I'll sail the world to find you.", kr: "만약 당신이 바다 한가운데 갇혀있는 자신을 보게 된다면, 내가 당신을 찾아 전 세계를 항해할게요." },
+          { en: "If you ever find yourself lost in the dark and you can't see, I'll be the light to guide you.", kr: "만약 당신이 어둠 속에서 길을 잃고 아무것도 볼 수 없다면, 내가 당신을 인도할 빛이 되어줄게요." },
+          { en: "We find out what we're made of when we are called to help our friends in need.", kr: "우리는 도움이 필요한 친구들의 부름을 받을 때 우리가 어떤 존재인지 깨닫게 돼요." },
+          { en: "You can count on me like one, two, three, I'll be there.", kr: "하나, 둘, 셋을 세듯 나를 믿으면 돼요, 내가 거기에 있을게요." },
+          { en: "And I know when I need it, I can count on you like four, three, two, you'll be there.", kr: "그리고 내가 필요할 때, 넷, 셋, 둘을 세듯 당신을 믿을 수 있다는 걸 알아요, 당신도 거기에 있을 테니까요." },
+          { en: "'Cause that's what friends are supposed to do, oh yeah.", kr: "그게 바로 친구들이 해야 할 일이니까요." },
+          { en: "If you're tossin' and you're turnin' and you just can't fall asleep, I'll sing a song beside you.", kr: "만약 당신이 뒤척이며 잠들지 못한다면, 내가 당신 곁에서 노래를 불러줄게요." },
+          { en: "And if you ever forget how much you really mean to me, everyday I will remind you.", kr: "그리고 당신이 나에게 얼마나 소중한지 잊어버린다면, 매일 내가 상기시켜줄게요." },
+          { en: "You'll never let go, never say goodbye, you know you can cry on my shoulder.", kr: "당신은 절대 손을 놓지 않고, 작별 인사를 하지 않을 거예요, 내 어깨에 기대어 울어도 된다는 걸 알잖아요." }
+        ]
+      },
+      {
+        id: "s2",
+        title: "2. Michael Jackson - Heal the World",
+        videoId: "BWf-eARnf6U",
+        part1: [
+          { q: "Heal the world, make it a _____ place.", opts: [{t:"better",v:"a"},{t:"darker",v:"b"},{t:"wider",v:"c"}], ans: "a" },
+          { q: "For you and for me and the _____ human race.", opts: [{t:"entire",v:"a"},{t:"small",v:"b"},{t:"local",v:"c"}], ans: "a" },
+          { q: "There are people dying, if you care enough for the _____.", opts: [{t:"living",v:"a"},{t:"past",v:"b"},{t:"wealthy",v:"c"}], ans: "a" },
+          { q: "Make a better place for _____ and for me.", opts: [{t:"you",v:"a"},{t:"them",v:"b"},{t:"him",v:"c"}], ans: "a" },
+          { q: "There's a place in your _____, and I know that it is love.", opts: [{t:"heart",v:"a"},{t:"mind",v:"b"},{t:"soul",v:"c"}], ans: "a" }
+        ],
+        part2: [
+          { word: "heal", opts: [{t:"치유하다, 고치다",v:"a"},{t:"상처 입히다",v:"b"},{t:"파괴하다",v:"c"}], ans: "a" },
+          { word: "entire", opts: [{t:"전체의, 온간",v:"a"},{t:"일부의",v:"b"},{t:"작은",v:"c"}], ans: "a" },
+          { word: "sorrow", opts: [{t:"슬픔, 비탄",v:"a"},{t:"기쁨",v:"b"},{t:"희망",v:"c"}], ans: "a" },
+          { word: "bliss", opts: [{t:"더없는 행복",v:"a"},{t:"고통",v:"b"},{t:"분노",v:"c"}], ans: "a" },
+          { word: "grace", opts: [{t:"우아함, 은혜",v:"a"},{t:"어둠",v:"b"},{t:"혼란",v:"c"}], ans: "a" }
+        ],
+        part3: [
+          { q: "핵심 후렴구 구문: _____ the world, make it a better place.", ans: "heal" },
+          { q: "'전 인류'를 의미하는 빈칸: For you and for me and the _____ human race.", ans: "entire" },
+          { q: "'살아있는 이들' 표현: If you care enough for the _____.", ans: "living" },
+          { q: "'더 나은 공간을 만들어요': Make a _____ place for you and for me.", ans: "better" },
+          { q: "가사 완성하기: There's a place in your _____, and I know that it is love.", ans: "heart" }
+        ],
+        lyrics: [
+          { en: "There's a place in your heart, and I know that it is love.", kr: "당신의 마음속에는 한 장소가 있고, 나는 그것이 사랑이라는 것을 알고 있어요." },
+          { en: "And this place could be much brighter than tomorrow.", kr: "그리고 이 장소는 내일보다 훨씬 더 밝아질 수 있어요." },
+          { en: "And if you really try, you'll find there's no need to cry.", kr: "그리고 당신이 정말로 노력한다면, 울 필요가 없다는 것을 알게 될 거예요." },
+          { en: "In this place you'll feel there's no hurt or sorrow.", kr: "이곳에서 당신은 아무런 아픔이나 슬픔도 느끼지 않을 거예요." },
+          { en: "Heal the world, make it a better place.", kr: "세상을 치유하고, 더 나은 곳으로 만들어요." },
+          { en: "For you and for me and the entire human race.", kr: "당신과 나, 그리고 전 인류를 위해서 말이에요." },
+          { en: "There are people dying, if you care enough for the living.", kr: "사람들이 죽어가고 있어요, 당신이 살아있는 이들을 충분히 돌본다면," },
+          { en: "Make a better place for you and for me.", kr: "당신과 나를 위해 더 나은 곳을 만들어봐요." }
+        ]
+      },
+      {
+        id: "s3",
+        title: "3. Air Supply - Making Love Out of Nothing at All",
+        videoId: "ogoIxkPjRts",
+        part1: [
+          { q: "I know how to _____ and I know how to fake.", opts: [{t:"lie",v:"a"},{t:"cry",v:"b"},{t:"fly",v:"c"}], ans: "a" },
+          { q: "I can make the _____ fall out of the sky.", opts: [{t:"stars",v:"a"},{t:"rain",v:"b"},{t:"snow",v:"c"}], ans: "a" },
+          { q: "I can make all the _____ come true.", opts: [{t:"dreams",v:"a"},{t:"wishes",v:"b"},{t:"fears",v:"c"}], ans: "a" },
+          { q: "Making love out of _____ at all.", opts: [{t:"nothing",v:"a"},{t:"something",v:"b"},{t:"everything",v:"c"}], ans: "a" },
+          { q: "Every time I see you all the _____ start to shine.", opts: [{t:"rays",v:"a"},{t:"lights",v:"b"},{t:"sun",v:"c"}], ans: "a" }
+        ],
+        part2: [
+          { word: "out of nothing", opts: [{t:"아무것도 없는 것에서",v:"a"},{t:"모든 것에서",v:"b"},{t:"확실하게",v:"c"}], ans: "a" },
+          { word: "whisper", opts: [{t:"속삭이다",v:"a"},{t:"외치다",v:"b"},{t:"웃다",v:"c"}], ans: "a" },
+          { word: "shadow", opts: [{t:"그림자",v:"a"},{t:"빛",v:"b"},{t:"바람",v:"c"}], ans: "a" },
+          { word: "fake", opts: [{t:"~인 체하다, 꾸미다",v:"a"},{t:"진실되다",v:"b"},{t:"약속하다",v:"c"}], ans: "a" },
+          { word: "rhythm", opts: [{t:"리듬, 율동",v:"a"},{t:"멜로디",v:"b"},{t:"가사",v:"c"}], ans: "a" }
+        ],
+        part3: [
+          { q: "'거짓말하는 법을 안다': I know how to _____ and I know how to fake.", ans: "lie" },
+          { q: "'하늘에서 별이 떨어지게 만들다': I can make the _____ fall out of the sky.", ans: "stars" },
+          { q: "'아무것도 없는 것에서': Making love out of _____ at all.", ans: "nothing" },
+          { q: "'속삭이는 법을 안다': I know how to _____ when the time is right.", ans: "whisper" },
+          { q: "핵심 구문: Making _____ out of nothing at all.", ans: "love" }
+        ],
+        lyrics: [
+          { en: "I know how to lie and I know how to fake.", kr: "나는 거짓말하는 법도 알고 꾸며내는 법도 알죠." },
+          { en: "I know how to touch, and I know where to touch.", kr: "나는 어떻게 만져야 하는지, 어디를 만져야 하는지도 알아요." },
+          { en: "I know how to pull all the wires until the light comes on.", kr: "불이 들어올 때까지 모든 전선을 당기는 법도 알아요." },
+          { en: "I can make the stars fall out of the sky.", kr: "난 하늘에서 별들이 떨어지게 할 수도 있어요." },
+          { en: "I can make the sun shine in the moonlight.", kr: "달빛 속에서 태양이 빛나게 할 수도 있죠." },
+          { en: "Making love out of nothing at all.", kr: "아무것도 없는 것에서 사랑을 만들어내면서요." }
+        ]
+      }
+      // 📌 30~50곡 이상으로 확장 시 위의 동일한 구조로 객체를 계속해서 덧붙이면 됩니다.
+    ];
+
+    function initSongSelect() {
+      const select = document.getElementById("songSelect");
+      select.innerHTML = "";
+      
+      const songTitles = [
+        "1. Bruno Mars - Count on Me",
+        "2. Michael Jackson - Heal the World",
+        "3. Air Supply - Making Love Out of Nothing at All",
+        "4. Westlife - You Raise Me Up", "5. Backstreet Boys - As Long As You Love Me",
+        "6. Maroon 5 - Memories", "7. Justin Bieber - Love Yourself", "8. Daniel Caesar - Best Part",
+        "9. Lukas Graham - 7 Years", "10. Charlie Puth - One Call Away", "11. Taylor Swift - You Belong With Me",
+        "12. Ed Sheeran - Perfect", "13. Coldplay - Viva La Vida", "14. Queen - Don't Stop Me Now",
+        "15. Shawn Mendes - Treat You Better", "16. One Direction - What Makes You Beautiful",
+        "17. Alessia Cara - Scars To Your Beautiful", "18. Jason Mraz - I'm Yours", "19. Billie Eilish - ocean eyes",
+        "20. Imagine Dragons - Demons", "21. Avicii - The Nights", "22. Kelly Clarkson - Stronger",
+        "23. Katy Perry - Firework", "24. The Beatles - Let It Be", "25. John Legend - All of Me",
+        "26. Sam Smith - Stay With Me", "27. Anne-Marie - 2002", "28. Rachel Platten - Fight Song",
+        "29. Lauv - Paris in the Rain", "30. Wiz Khalifa ft. Charlie Puth - See You Again"
+      ];
+
+      songTitles.forEach((title, index) => {
+        const opt = document.createElement("option");
+        opt.value = index < songDatabase.length ? songDatabase[index].id : songDatabase[0].id;
+        opt.innerText = title;
+        select.appendChild(opt);
+      });
+
+      loadSongData();
+    }
+
+    let currentSongData = null;
+
+    function loadSongData() {
+      const select = document.getElementById("songSelect");
+      const selectedId = select.value;
+
+      currentSongData = songDatabase.find(s => s.id === selectedId) || songDatabase[0];
+
+      document.getElementById("songYoutubeLink").href = `https://www.youtube.com/results?search_query=${encodeURIComponent(currentSongData.title + " lyric video")}`;
+      document.getElementById("songThumbnail").src = `https://img.youtube.com/vi/${currentSongData.videoId}/hqdefault.jpg`;
+
+      // Part 1 동적 생성 (객관식 5문항)
+      const p1Box = document.getElementById("part1Container");
+      p1Box.innerHTML = "";
+      currentSongData.part1.forEach((item, idx) => {
+        let optsHtml = `<option value="">-- 선택하세요 --</option>`;
+        item.opts.forEach(o => { optsHtml += `<option value="${o.v}">${o.t}</option>`; });
+        const correctOpt = item.opts.find(o => o.v === item.ans);
+
+        p1Box.innerHTML += `
+          <div>
+            <p class="text-sm font-medium text-slate-700 mb-1">${idx + 1}. ${item.q}</p>
+            <select id="q${idx+1}" required class="w-full sm:w-64 px-3 py-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-indigo-500 outline-none text-sm bg-white">
+              ${optsHtml}
+            </select>
+            <p id="ans-q${idx+1}" class="hidden text-xs font-semibold text-emerald-600 mt-1">✓ 정답: ${correctOpt ? correctOpt.t : ''}</p>
+          </div>
+        `;
+      });
+
+      // Part 2 동적 생성 (어휘 5문항)
+      const p2Box = document.getElementById("part2Container");
+      p2Box.innerHTML = "";
+      currentSongData.part2.forEach((item, idx) => {
+        let optsHtml = `<option value="">-- 선택하세요 --</option>`;
+        item.opts.forEach(o => { optsHtml += `<option value="${o.v}">${o.t}</option>`; });
+        const correctOpt = item.opts.find(o => o.v === item.ans);
+
+        p2Box.innerHTML += `
+          <div>
+            <label class="block text-sm font-semibold text-slate-800 mb-1">${idx + 1}. "${item.word}"</label>
+            <select id="v${idx+1}" required class="w-full sm:w-64 px-3 py-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-indigo-500 outline-none text-sm bg-white">
+              ${optsHtml}
+            </select>
+            <p id="ans-v${idx+1}" class="hidden text-xs font-semibold text-emerald-600 mt-1">✓ 정답: ${correctOpt ? correctOpt.t : ''}</p>
+          </div>
+        `;
+      });
+
+      // Part 3 동적 생성 (Dictation & Key Expressions 5문항)
+      const p3Box = document.getElementById("part3Container");
+      p3Box.innerHTML = "";
+      currentSongData.part3.forEach((item, idx) => {
+        p3Box.innerHTML += `
+          <div class="space-y-1">
+            <p class="text-sm font-medium text-slate-700">${idx + 1}. ${item.q}</p>
+            <input type="text" id="d${idx+1}" required placeholder="답안 입력 (영문 소문자로 작성)" class="w-full sm:w-96 px-3 py-1.5 border border-slate-300 rounded-md focus:ring-2 focus:ring-indigo-500 outline-none text-sm bg-white">
+            <p id="ans-d${idx+1}" class="hidden text-xs font-semibold text-emerald-600 mt-1">✓ 정답: ${item.ans}</p>
+          </div>
+        `;
+      });
+
+      // 제출 후 가사 전체 원문 및 해석 동적 생성
+      const lBox = document.getElementById("lyricsContainer");
+      lBox.innerHTML = "";
+      currentSongData.lyrics.forEach((item, idx) => {
+        lBox.innerHTML += `
+          <div class="bg-white p-3.5 rounded-lg border border-emerald-100 shadow-sm">
+            <p class="font-semibold text-emerald-950">${idx + 1}. ${item.en}</p>
+            <p class="text-slate-600 mt-1">${item.kr}</p>
+          </div>
+        `;
+      });
+
+      document.getElementById("postSubmitLyrics").classList.add("hidden");
+    }
+
+    async function handleSubmit(event) {
+      event.preventDefault();
+
+      const submitBtn = document.getElementById("submitBtn");
+      submitBtn.disabled = true;
+      submitBtn.innerText = "제출 처리 중...";
+
+      const studentId = document.getElementById("studentId").value.trim();
+      const studentName = document.getElementById("studentName").value.trim();
+      const reflection = document.getElementById("reflection").value.trim();
+
+      let score = 0;
+      const totalQuestions = currentSongData.part1.length + currentSongData.part2.length + currentSongData.part3.length; // 총 15문항
+      const pointsPerQ = 100 / totalQuestions; // 문항당 약 6.66점
+
+      // Part 1 채점
+      currentSongData.part1.forEach((item, idx) => {
+        const userAns = document.getElementById(`q${idx+1}`).value;
+        if (userAns === item.ans) score += pointsPerQ;
+      });
+
+      // Part 2 채점
+      currentSongData.part2.forEach((item, idx) => {
+        const userAns = document.getElementById(`v${idx+1}`).value;
+        if (userAns === item.ans) score += pointsPerQ;
+      });
+
+      // Part 3 채점 (공백 및 대소문자 정규화 후 비교)
+      currentSongData.part3.forEach((item, idx) => {
+        const userAns = document.getElementById(`d${idx+1}`).value.trim().toLowerCase().replace(/\s+/g, ' ');
+        const targetAns = item.ans.toLowerCase().replace(/\s+/g, ' ');
+        if (userAns === targetAns) score += pointsPerQ;
+      });
+
+      const finalScore = Math.round(score);
+
+      const payload = {
+        student_id: studentId,
+        student_name: studentName,
+        song_title: currentSongData.title,
+        score: finalScore,
+        reflection: reflection,
+        submitted_at: new Date().toLocaleString("ko-KR")
+      };
+
+      alert(`제출이 완료되었습니다!\n(내 점수: ${finalScore}점 / 100점)\n\n하단에서 정답과 전체 가사 해석을 확인하세요.`);
+
+      // 정답 노출
+      currentSongData.part1.forEach((_, idx) => document.getElementById(`ans-q${idx+1}`).classList.remove("hidden"));
+      currentSongData.part2.forEach((_, idx) => document.getElementById(`ans-v${idx+1}`).classList.remove("hidden"));
+      currentSongData.part3.forEach((_, idx) => document.getElementById(`ans-d${idx+1}`).classList.remove("hidden"));
+
+      // 전체 가사 해석 노출
+      const postSubmitLyrics = document.getElementById("postSubmitLyrics");
+      postSubmitLyrics.classList.remove("hidden");
+      postSubmitLyrics.scrollIntoView({ behavior: "smooth" });
+
+      if (WEBHOOK_URL) {
+        try {
+          await fetch(WEBHOOK_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+        } catch (error) {
+          console.error("전송 에러:", error);
+        }
+      }
+
+      submitBtn.innerText = "제출 완료";
+      submitBtn.classList.remove("bg-indigo-600", "hover:bg-indigo-700");
+      submitBtn.classList.add("bg-gray-400", "cursor-not-allowed");
+    }
+
+    window.onload = initSongSelect;
+  </script>
+</body>
+</html>
