@@ -141,8 +141,8 @@
   </div>
 
   <script>
-    const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbx5Mu9DK3gDAyS1Si7J2oLf2dEhKJEwp0fMWpYHGc4iSOWROWvgaPeZjWsH20RkO58n/exec";
-    
+    // 새로 발급된 최신 Webhook URL 반영
+    const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbyqyfzcqPBxrmec11dXXMwYJvoiR-z6bJcjw_WrGZydDVbPgJ0GM3nUUZRMNhyBBTbk7w/exec";
 
     const songDatabase = [
       {
@@ -439,34 +439,43 @@
 
       const studentId = document.getElementById("studentId").value.trim();
       const studentName = document.getElementById("studentName").value.trim();
-      
       const classCodeSelect = document.getElementById("classCode");
       const classCode = classCodeSelect ? classCodeSelect.value : "";
-      
       const reflection = document.getElementById("reflection").value.trim();
 
       let score = 0;
       const totalQuestions = currentSongData.part1.length + currentSongData.part2.length + currentSongData.part3.length;
       const pointsPerQ = totalQuestions > 0 ? 100 / totalQuestions : 0;
+      
+      // H열부터 들어갈 개별 15개 문항 답안 배열
+      const userAnswers = [];
 
+      // Part 1 채점 및 답안 수집
       currentSongData.part1.forEach((item, idx) => {
         const userAns = document.getElementById(`q${idx+1}`).value;
+        userAnswers.push(userAns);
         if (userAns === item.ans) score += pointsPerQ;
       });
 
+      // Part 2 채점 및 답안 수집
       currentSongData.part2.forEach((item, idx) => {
         const userAns = document.getElementById(`v${idx+1}`).value;
+        userAnswers.push(userAns);
         if (userAns === item.ans) score += pointsPerQ;
       });
 
+      // Part 3 채점 및 답안 수집
       currentSongData.part3.forEach((item, idx) => {
-        const userAns = document.getElementById(`d${idx+1}`).value.trim().toLowerCase().replace(/\s+/g, ' ');
-        const targetAns = item.ans.toLowerCase().replace(/\s+/g, ' ');
-        if (userAns === targetAns) score += pointsPerQ;
+        const userAns = document.getElementById(`d${idx+1}`).value.trim();
+        userAnswers.push(userAns);
+        const cleanUser = userAns.toLowerCase().replace(/\s+/g, ' ');
+        const cleanTarget = item.ans.toLowerCase().replace(/\s+/g, ' ');
+        if (cleanUser === cleanTarget) score += pointsPerQ;
       });
 
       const finalScore = Math.round(score);
 
+      // 구글 시트로 보낼 완성형 데이터 보따리
       const payload = {
         student_id: studentId,
         student_name: studentName,
@@ -474,6 +483,7 @@
         song_title: currentSongData.title,
         score: finalScore,
         reflection: reflection,
+        answers: userAnswers,
         submitted_at: new Date().toLocaleString("ko-KR")
       };
 
