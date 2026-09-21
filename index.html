@@ -141,8 +141,41 @@
   </div>
 
   <script>
-    // 새로 발급된 최신 Webhook URL 반영
     const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbyqyfzcqPBxrmec11dXXMwYJvoiR-z6bJcjw_WrGZydDVbPgJ0GM3nUUZRMNhyBBTbk7w/exec";
+
+    // 공통 문제 템플릿 생성기 (4~30번 데이터)
+    function createSongEntry(id, title, videoId, keyWord, keyMeaning, lyEn, lyKr) {
+      return {
+        id: id,
+        title: title,
+        videoId: videoId,
+        part1: [
+          { q: `Listen and fill in the blank: The key word in this part is _____.`, opts: [{t: keyWord, v: "a"}, {t: "never", v: "b"}, {t: "always", v: "c"}], ans: "a" },
+          { q: `Choose the correct word: I feel the _____ in my heart.`, opts: [{t: keyWord, v: "a"}, {t: "sound", v: "b"}, {t: "light", v: "c"}], ans: "a" },
+          { q: `Select the word that fits: We should keep our _____.`, opts: [{t: keyWord, v: "a"}, {t: "time", v: "b"}, {t: "way", v: "c"}], ans: "a" },
+          { q: `Fill in the lyrics: It gives me _____ to go on.`, opts: [{t: keyWord, v: "a"}, {t: "hope", v: "b"}, {t: "love", v: "c"}], ans: "a" },
+          { q: `Complete the phrase: This song brings _____ to everyone.`, opts: [{t: keyWord, v: "a"}, {t: "joy", v: "b"}, {t: "peace", v: "c"}], ans: "a" }
+        ],
+        part2: [
+          { word: keyWord, opts: [{t: keyMeaning, v: "a"}, {t: "슬픔", v: "b"}, {t: "분노", v: "c"}], ans: "a" },
+          { word: "heart", opts: [{t: "마음, 심장", v: "a"}, {t: "머리", v: "b"}, {t: "손", v: "c"}], ans: "a" },
+          { word: "dream", opts: [{t: "꿈, 희망", v: "a"}, {t: "현실", v: "b"}, {t: "과거", v: "c"}], ans: "a" },
+          { word: "shine", opts: [{t: "빛나다", v: "a"}, {t: "어둡다", v: "b"}, {t: "멈추다", v: "c"}], ans: "a" },
+          { word: "forever", opts: [{t: "영원히", v: "a"}, {t: "잠시", v: "b"}, {t: "내일", v: "c"}], ans: "a" }
+        ],
+        part3: [
+          { q: `'${keyMeaning}'를 의미하는 영단어:`, ans: keyWord },
+          { q: `'마음, 심장'을 뜻하는 영단어:`, ans: "heart" },
+          { q: `'꿈'을 뜻하는 영단어:`, ans: "dream" },
+          { q: `'빛나다'를 뜻하는 영단어:`, ans: "shine" },
+          { q: `'영원히'를 뜻하는 영단어:`, ans: "forever" }
+        ],
+        lyrics: [
+          { en: lyEn, kr: lyKr },
+          { en: "Music brings us all together in peace and harmony.", kr: "음악은 평화와 조화 속에서 우리 모두를 하나로 모아줍니다." }
+        ]
+      };
+    }
 
     const songDatabase = [
       {
@@ -242,6 +275,37 @@
           { en: "Making love out of nothing at all.", kr: "아무것도 없는 것에서 사랑을 만들어내면서요." }
         ]
       },
+
+      // 4번 ~ 30번 곡 자동 세팅
+      createSongEntry("s4", "4. Westlife - You Raise Me Up", "YfgR4kXvdv0", "raise", "일으켜 세우다", "You raise me up, so I can stand on mountains.", "당신이 나를 일으켜 주시기에, 나는 산 위에도 설 수 있어요."),
+      createSongEntry("s5", "5. Backstreet Boys - As Long As You Love Me", "0Gl2QnHNpkA", "love", "사랑하다", "As long as you love me, I don't care who you are.", "당신이 나를 사랑하는 한, 당신이 누구든 상관없어요."),
+      createSongEntry("s6", "6. Maroon 5 - Memories", "SlPhMPnE58M", "memories", "추억, 기억", "Here's to the ones that we got, cheers to the wish you were here.", "우리가 함께한 이들을 위하여, 당신이 여기 있길 바라는 마음을 담아 건배."),
+      createSongEntry("s7", "7. Justin Bieber - Love Yourself", "oyEuk8j8imI", "yourself", "당신 자신", "My mama don't like you and she likes everyone.", "우리 엄마는 모두를 좋아하지만 너는 좋아하지 않으셔."),
+      createSongEntry("s8", "8. Daniel Caesar - Best Part", "vBy7f01P38E", "best", "최고의", "If life is a movie, then you're the best part.", "인생이 영화라면, 당신은 가장 멋진 장면이에요."),
+      createSongEntry("s9", "9. Lukas Graham - 7 Years", "LHCob76kigg", "years", "세월, 연도", "Once I was seven years old, my mama told me.", "내가 일곱 살이었을 때, 엄마가 나에게 말씀하셨죠."),
+      createSongEntry("s10", "10. Charlie Puth - One Call Away", "BxuY9LFI4vg", "call", "전화, 부름", "I'm only one call away, I'll be there to save the day.", "전화 한 통이면 돼요, 내가 가서 당신을 구해줄게요."),
+      createSongEntry("s11", "11. Taylor Swift - You Belong With Me", "VuNIsY6JdUw", "belong", "속하다", "If you could see that I'm the one who understands you.", "너를 이해하는 사람이 바로 나라는 걸 알아준다면 좋을 텐데."),
+      createSongEntry("s12", "12. Ed Sheeran - Perfect", "2Vv-BfVoq4g", "perfect", "완벽한", "Baby, I'm dancing in the dark with you between my arms.", "그대여, 내 품에 당신을 안고 어둠 속에서 춤추고 있어요."),
+      createSongEntry("s13", "13. Coldplay - Viva La Vida", "dvgZkm1xWPE", "world", "세상, 세계", "I used to rule the world, seas would rise when I gave the word.", "나는 한때 세상을 통치했었고, 내가 명령하면 바다가 넘실거렸지."),
+      createSongEntry("s14", "14. Queen - Don't Stop Me Now", "HgzG151oyzw", "stop", "멈추다", "Don't stop me now, I'm having such a good time.", "지금 나를 멈추지 마세요, 난 지금 너무 좋은 시간을 보내고 있어요."),
+      createSongEntry("s15", "15. Shawn Mendes - Treat You Better", "lY2yjAxd6uM", "better", "더 잘, 더 좋게", "I know I can treat you better than he can.", "내가 그보다 당신을 더 잘 대해줄 수 있다는 걸 알고 있어요."),
+      createSongEntry("s16", "16. One Direction - What Makes You Beautiful", "QJO3ROT-A4E", "beautiful", "아름다운", "You don't know you're beautiful, that's what makes you beautiful.", "너 자신이 아름답다는 걸 모르는 게, 바로 너를 아름답게 만드는 거야."),
+      createSongEntry("s17", "17. Alessia Cara - Scars To Your Beautiful", "MWASea858NE", "beauty", "아름다움", "There's a hope that's waiting for you in the dark.", "어둠 속에서 당신을 기다리고 있는 희망이 있어요."),
+      createSongEntry("s18", "18. Jason Mraz - I'm Yours", "EkHTsc9PU2A", "yours", "당신의 것", "I won't hesitate no more, no more, it cannot wait, I'm yours.", "더 이상 망설이지 않을게요, 주저할 수 없어요, 난 당신의 것이니까요."),
+      createSongEntry("s19", "19. Billie Eilish - ocean eyes", "viimfQi_pUw", "eyes", "눈동자", "I've never fallen from quite this high, falling into your ocean eyes.", "이렇게 높은 곳에서 떨어진 적이 없었어, 너의 깊은 바다 같은 눈동자 속으로 떨어져."),
+      createSongEntry("s20", "20. Imagine Dragons - Demons", "mWRsgZuwf_8", "dark", "어둠", "When the days are cold and the cards all fold.", "날이 추워지고 모든 카드가 접힐 때."),
+      createSongEntry("s21", "21. Avicii - The Nights", "UtF6Jej8yb4", "nights", "밤들", "He said, 'One day you'll leave this world behind, so live a life you will remember.'", "아버지는 말씀하셨죠, '언젠가 이 세상을 떠날 테니, 기억에 남을 삶을 살아라.'"),
+      createSongEntry("s22", "22. Kelly Clarkson - Stronger", "Xn676-fLq7I", "stronger", "더 강한", "What doesn't kill you makes you stronger.", "너를 쓰러뜨리지 못하는 것은 너를 더 강하게 만들 뿐이야."),
+      createSongEntry("s23", "23. Katy Perry - Firework", "QGJuMBdaqiw", "spark", "불꽃", "Cause baby, you're a firework, come on, show 'em what you're worth.", "그대여, 당신은 불꽃놀이와도 같으니 당신의 가치를 모두에게 보여주세요."),
+      createSongEntry("s24", "24. The Beatles - Let It Be", "QDYfEBY9NM4", "wisdom", "지혜", "Speaking words of wisdom, let it be.", "지혜의 말씀을 전해주시네요, 순리대로 두라고."),
+      createSongEntry("s25", "25. John Legend - All of Me", "450p7goxZqg", "all", "모든 것", "Cause all of me loves all of you.", "나의 모든 것은 당신의 모든 것을 사랑하니까요."),
+      createSongEntry("s26", "26. Sam Smith - Stay With Me", "pB-5XG-DbAA", "stay", "머물다", "Oh, won't you stay with me? 'Cause you're all I need.", "오, 내 곁에 머물러 주지 않을래요? 당신만이 내게 필요한 전부이니까요."),
+      createSongEntry("s27", "27. Anne-Marie - 2002", "2Vv-BfVoq4g", "singing", "노래하는", "Singing at the top of our lungs.", "목이 터져라 목청껏 함께 노래를 불렀지."),
+      createSongEntry("s28", "28. Rachel Platten - Fight Song", "xo1VInw-95c", "fight", "싸움, 투지", "This is my fight song, take back my life song.", "이것은 나의 투지의 노래, 내 삶을 되찾을 노래예요."),
+      createSongEntry("s29", "29. Lauv - Paris in the Rain", "kOCkne-Bku4", "rain", "비", "Anywhere with you feels like Paris in the rain.", "당신과 함께라면 어디든 비 내리는 파리처럼 느껴져요."),
+      createSongEntry("s30", "30. Wiz Khalifa ft. Charlie Puth - See You Again", "RgKAFK5djSk", "again", "다시", "It's been a long day without you, my friend, and I'll tell you all about it when I see you again.", "너 없이 긴 하루였어 내 친구야, 너를 다시 만나면 이 모든 이야기를 해줄게."),
+
+      // 31번 곡 (The Police)
       {
         id: "s31",
         title: "31. The Police - Every Breath You Take",
@@ -362,16 +426,6 @@
       const p3Box = document.getElementById("part3Container");
       const lBox = document.getElementById("lyricsContainer");
 
-      if (!foundSong) {
-        const prepareMsg = `<p class="text-sm font-medium text-amber-600 bg-amber-50 p-4 rounded-lg border border-amber-200">⚠️ 현재 곡은 학습 문제가 준비 중입니다. 상단 버튼을 눌러 노래를 먼저 감상해 보세요!</p>`;
-        p1Box.innerHTML = prepareMsg;
-        p2Box.innerHTML = prepareMsg;
-        p3Box.innerHTML = prepareMsg;
-        lBox.innerHTML = prepareMsg;
-        document.getElementById("postSubmitLyrics").classList.add("hidden");
-        return;
-      }
-
       p1Box.innerHTML = "";
       currentSongData.part1.forEach((item, idx) => {
         let optsHtml = `<option value="">-- 선택하세요 --</option>`;
@@ -447,24 +501,20 @@
       const totalQuestions = currentSongData.part1.length + currentSongData.part2.length + currentSongData.part3.length;
       const pointsPerQ = totalQuestions > 0 ? 100 / totalQuestions : 0;
       
-      // H열부터 들어갈 개별 15개 문항 답안 배열
       const userAnswers = [];
 
-      // Part 1 채점 및 답안 수집
       currentSongData.part1.forEach((item, idx) => {
         const userAns = document.getElementById(`q${idx+1}`).value;
         userAnswers.push(userAns);
         if (userAns === item.ans) score += pointsPerQ;
       });
 
-      // Part 2 채점 및 답안 수집
       currentSongData.part2.forEach((item, idx) => {
         const userAns = document.getElementById(`v${idx+1}`).value;
         userAnswers.push(userAns);
         if (userAns === item.ans) score += pointsPerQ;
       });
 
-      // Part 3 채점 및 답안 수집
       currentSongData.part3.forEach((item, idx) => {
         const userAns = document.getElementById(`d${idx+1}`).value.trim();
         userAnswers.push(userAns);
@@ -475,7 +525,6 @@
 
       const finalScore = Math.round(score);
 
-      // 구글 시트로 보낼 완성형 데이터 보따리
       const payload = {
         student_id: studentId,
         student_name: studentName,
