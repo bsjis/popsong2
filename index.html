@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>고등학생 팝송 리스닝 & 어휘 과제 App</title>
-  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
@@ -24,14 +23,13 @@
 
     <form id="assignmentForm" onsubmit="handleSubmit(event)" class="p-6 sm:p-8 space-y-8">
       
-     <!-- 0. 학생 정보 입력 & 곡 선택 -->
+      <!-- 0. 학생 정보 입력 & 곡 선택 -->
       <section class="bg-indigo-50 p-4 sm:p-6 rounded-xl border border-indigo-100 space-y-4">
         <h2 class="text-lg font-bold text-indigo-900 flex items-center">
           <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
           기본 정보 & 학습 곡 선택
         </h2>
         
-        <!-- 학번 & 이름 (2열 배치) -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label for="studentId" class="block text-sm font-medium text-slate-700 mb-1">학번 (예: 10101)</label>
@@ -43,7 +41,7 @@
           </div>
         </div>
 
-        <!-- 🔽 이름 아래, 팝송 선택 위에 추가된 반 코드 🔽 -->
+        <!-- 추가된 반 코드 선택란 -->
         <div>
           <label for="classCode" class="block text-sm font-medium text-slate-700 mb-1">반 코드</label>
           <select id="classCode" required class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none transition bg-white text-slate-800">
@@ -55,7 +53,6 @@
           </select>
         </div>
 
-        <!-- 🎵 학습할 팝송 선택 -->
         <div>
           <label for="songSelect" class="block text-sm font-bold text-indigo-950 mb-1">🎵 학습할 팝송 선택</label>
           <select id="songSelect" onchange="loadSongData(event)" class="w-full px-4 py-2.5 border border-indigo-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none font-medium text-sm bg-white text-indigo-900 shadow-sm">
@@ -86,37 +83,31 @@
 
       <hr class="border-slate-200">
 
-      <!-- Part 1: Listening Gap-Fill (5문항 객관식) -->
+      <!-- Part 1: Listening Gap-Fill -->
       <section class="space-y-4">
         <div>
           <h2 class="text-xl font-bold text-slate-900">Part 1. Listening Gap-Fill (5문항)</h2>
           <p class="text-sm text-slate-500">노래를 들으며 알맞은 단어를 보기 중에서 선택하세요.</p>
         </div>
-        <div id="part1Container" class="space-y-4 bg-slate-50 p-5 rounded-xl border border-slate-200">
-          <!-- 동적 생성 -->
-        </div>
+        <div id="part1Container" class="space-y-4 bg-slate-50 p-5 rounded-xl border border-slate-200"></div>
       </section>
 
-      <!-- Part 2: Vocabulary Match (5문항 객관식) -->
+      <!-- Part 2: Vocabulary Match -->
       <section class="space-y-4">
         <div>
           <h2 class="text-xl font-bold text-slate-900">Part 2. Vocabulary Match (5문항)</h2>
           <p class="text-sm text-slate-500">가사 속 주요 어휘의 알맞은 뜻을 선택하세요.</p>
         </div>
-        <div id="part2Container" class="space-y-4 bg-slate-50 p-5 rounded-xl border border-slate-200">
-          <!-- 동적 생성 -->
-        </div>
+        <div id="part2Container" class="space-y-4 bg-slate-50 p-5 rounded-xl border border-slate-200"></div>
       </section>
 
-      <!-- Part 3: Dictation & Key Expressions (5문항 단답형) -->
+      <!-- Part 3: Dictation & Key Expressions -->
       <section class="space-y-4">
         <div>
           <h2 class="text-xl font-bold text-slate-900">Part 3. Dictation & Key Expressions (5문항)</h2>
           <p class="text-sm text-slate-500">음원을 들으며 빈칸에 들어갈 가사 구문이나 핵심 표현을 직접 입력하세요.</p>
         </div>
-        <div id="part3Container" class="space-y-4 bg-slate-50 p-5 rounded-xl border border-slate-200">
-          <!-- 동적 생성 -->
-        </div>
+        <div id="part3Container" class="space-y-4 bg-slate-50 p-5 rounded-xl border border-slate-200"></div>
       </section>
 
       <!-- Part 4: Song Analysis & Reflection -->
@@ -130,15 +121,13 @@
         </div>
       </section>
 
-      <!-- 제출 후 공개 영역 (정답 및 가사 전체 원문/해석) -->
+      <!-- 제출 후 공개 영역 -->
       <section id="postSubmitLyrics" class="hidden bg-emerald-50 rounded-xl p-5 border border-emerald-200 space-y-4">
         <h2 class="text-lg font-bold text-emerald-900 flex items-center">
           <svg class="w-5 h-5 mr-2 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
           제출 완료! 전체 가사 원문 및 해석 참고자료
         </h2>
-        <div id="lyricsContainer" class="space-y-3 text-sm leading-relaxed text-slate-700 max-h-96 overflow-y-auto pr-2">
-          <!-- 동적 생성 (곡 전체 가사) -->
-        </div>
+        <div id="lyricsContainer" class="space-y-3 text-sm leading-relaxed text-slate-700 max-h-96 overflow-y-auto pr-2"></div>
       </section>
 
       <!-- 제출 버튼 -->
@@ -154,7 +143,6 @@
   <script>
     const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbxN4jDgfG7PHOBEbsw22w7hTOkAot7tOC45mTPfDNZXU2jPSh_z1aB9mEBXx5DjJMpk5A/exec";
 
-    // 🎵 팝송 통합 데이터베이스 (Part 1: 5개, Part 2: 5개, Part 3: 5개 구성)
     const songDatabase = [
       {
         id: "s1",
@@ -187,10 +175,7 @@
           { en: "We find out what we're made of when we are called to help our friends in need.", kr: "우리는 도움이 필요한 친구들의 부름을 받을 때 우리가 어떤 존재인지 깨닫게 돼요." },
           { en: "You can count on me like one, two, three, I'll be there.", kr: "하나, 둘, 셋을 세듯 나를 믿으면 돼요, 내가 거기에 있을게요." },
           { en: "And I know when I need it, I can count on you like four, three, two, you'll be there.", kr: "그리고 내가 필요할 때, 넷, 셋, 둘을 세듯 당신을 믿을 수 있다는 걸 알아요, 당신도 거기에 있을 테니까요." },
-          { en: "'Cause that's what friends are supposed to do, oh yeah.", kr: "그게 바로 친구들이 해야 할 일이니까요." },
-          { en: "If you're tossin' and you're turnin' and you just can't fall asleep, I'll sing a song beside you.", kr: "만약 당신이 뒤척이며 잠들지 못한다면, 내가 당신 곁에서 노래를 불러줄게요." },
-          { en: "And if you ever forget how much you really mean to me, everyday I will remind you.", kr: "그리고 당신이 나에게 얼마나 소중한지 잊어버린다면, 매일 내가 상기시켜줄게요." },
-          { en: "You'll never let go, never say goodbye, you know you can cry on my shoulder.", kr: "당신은 절대 손을 놓지 않고, 작별 인사를 하지 않을 거예요, 내 어깨에 기대어 울어도 된다는 걸 알잖아요." }
+          { en: "'Cause that's what friends are supposed to do, oh yeah.", kr: "그게 바로 친구들이 해야 할 일이니까요." }
         ]
       },
       {
@@ -221,12 +206,8 @@
         lyrics: [
           { en: "There's a place in your heart, and I know that it is love.", kr: "당신의 마음속에는 한 장소가 있고, 나는 그것이 사랑이라는 것을 알고 있어요." },
           { en: "And this place could be much brighter than tomorrow.", kr: "그리고 이 장소는 내일보다 훨씬 더 밝아질 수 있어요." },
-          { en: "And if you really try, you'll find there's no need to cry.", kr: "그리고 당신이 정말로 노력한다면, 울 필요가 없다는 것을 알게 될 거예요." },
-          { en: "In this place you'll feel there's no hurt or sorrow.", kr: "이곳에서 당신은 아무런 아픔이나 슬픔도 느끼지 않을 거예요." },
           { en: "Heal the world, make it a better place.", kr: "세상을 치유하고, 더 나은 곳으로 만들어요." },
-          { en: "For you and for me and the entire human race.", kr: "당신과 나, 그리고 전 인류를 위해서 말이에요." },
-          { en: "There are people dying, if you care enough for the living.", kr: "사람들이 죽어가고 있어요, 당신이 살아있는 이들을 충분히 돌본다면," },
-          { en: "Make a better place for you and for me.", kr: "당신과 나를 위해 더 나은 곳을 만들어봐요." }
+          { en: "For you and for me and the entire human race.", kr: "당신과 나, 그리고 전 인류를 위해서 말이에요." }
         ]
       },
       {
@@ -256,821 +237,8 @@
         ],
         lyrics: [
           { en: "I know how to lie and I know how to fake.", kr: "나는 거짓말하는 법도 알고 꾸며내는 법도 알죠." },
-          { en: "I know how to touch, and I know where to touch.", kr: "나는 어떻게 만져야 하는지, 어디를 만져야 하는지도 알아요." },
-          { en: "I know how to pull all the wires until the light comes on.", kr: "불이 들어올 때까지 모든 전선을 당기는 법도 알아요." },
           { en: "I can make the stars fall out of the sky.", kr: "난 하늘에서 별들이 떨어지게 할 수도 있어요." },
-          { en: "I can make the sun shine in the moonlight.", kr: "달빛 속에서 태양이 빛나게 할 수도 있죠." },
           { en: "Making love out of nothing at all.", kr: "아무것도 없는 것에서 사랑을 만들어내면서요." }
-        ]
-      },
-      // songDatabase 배열 안에 3번 곡 뒤로 붙여넣으시면 됩니다.
-      {
-        id: "s4",
-        title: "4. Westlife - You Raise Me Up",
-        videoId: "NlprozGcs80",
-        part1: [
-          { q: "When I am down and, oh my soul, so _____", opts: [{t:"weary",v:"a"},{t:"happy",v:"b"},{t:"excited",v:"c"}], ans: "a" },
-          { q: "When troubles come and my heart _____ be...", opts: [{t:"burdened",v:"a"},{t:"lightened",v:"b"},{t:"cleared",v:"c"}], ans: "a" },
-          { q: "Then, I am still and wait here in the _____", opts: [{t:"silence",v:"a"},{t:"darkness",v:"b"},{t:"loudness",v:"c"}], ans: "a" },
-          { q: "You raise me up, so I can stand on _____", opts: [{t:"mountains",v:"a"},{t:"hills",v:"b"},{t:"clouds",v:"c"}], ans: "a" },
-          { q: "You raise me up, to walk on stormy _____", opts: [{t:"seas",v:"a"},{t:"rivers",v:"b"},{t:"lakes",v:"c"}], ans: "a" }
-        ],
-        part2: [
-          { word: "weary", opts: [{t:"지친, 피곤한",v:"a"},{t:"기쁜",v:"b"},{t:"활기찬",v:"c"}], ans: "a" },
-          { word: "burdened", opts: [{t:"부담을 지는, 지친",v:"a"},{t:"가벼운",v:"b"},{t:"자유로운",v:"c"}], ans: "a" },
-          { word: "silence", opts: [{t:"침묵, 고요",v:"a"},{t:"소음",v:"b"},{t:"음악",v:"c"}], ans: "a" },
-          { word: "stormy", opts: [{t:"폭풍우 치는",v:"a"},{t:"화창한",v:"b"},{t:"잔잔한",v:"c"}], ans: "a" },
-          { word: "more than I can be", opts: [{t:"내 능력 이상으로",v:"a"},{t:"내가 가능한 만큼",v:"b"},{t:"내 한계 아래로",v:"c"}], ans: "a" }
-        ],
-        part3: [
-          { q: "'지친'을 의미하는 단어: When I am down and, oh my soul, so _____", ans: "weary" },
-          { q: "'침묵'을 의미하는 단어: Until you come and sit awhile with me in the _____", ans: "silence" },
-          { q: "'산 위에 서다': You raise me up, so I can stand on _____", ans: "mountains" },
-          { q: "'폭풍우 치는 바다': To walk on stormy _____", ans: "seas" },
-          { q: "핵심 후렴구: You _____ me up.", ans: "raise" }
-        ],
-        lyrics: [
-          { en: "When I am down and, oh my soul, so weary.", kr: "내 영혼이 힘들고 지칠 때." },
-          { en: "When troubles come and my heart burdened be.", kr: "고난이 찾아오고 내 마음이 무거워질 때." },
-          { en: "You raise me up, so I can stand on mountains.", kr: "당신이 나를 일으켜 주시기에, 나는 산 위에 서 있을 수 있습니다." },
-          { en: "You raise me up, to walk on stormy seas.", kr: "당신이 나를 일으켜 주시기에, 나는 폭풍우 치는 바다 위를 걸을 수 있습니다." }
-        ]
-      },
-      {
-        id: "s5",
-        title: "5. Backstreet Boys - As Long As You Love Me",
-        videoId: "0Gl2QH_3NY4",
-        part1: [
-          { q: "As long as you _____ me, I don't care who you are.", opts: [{t:"love",v:"a"},{t:"know",v:"b"},{t:"see",v:"c"}], ans: "a" },
-          { q: "Where you're from, what you _____", opts: [{t:"did",v:"a"},{t:"said",v:"b"},{t:"thought",v:"c"}], ans: "a" },
-          { q: "As long as you love me, as long as you _____ me.", opts: [{t:"love",v:"a"},{t:"need",v:"b"},{t:"want",v:"c"}], ans: "a" },
-          { q: "I don't care, as long as you love _____", opts: [{t:"me",v:"a"},{t:"him",v:"b"},{t:"them",v:"c"}], ans: "a" },
-          { q: "Every little thing that you have _____ and done.", opts: [{t:"said",v:"a"},{t:"heard",v:"b"},{t:"thought",v:"c"}], ans: "a" }
-        ],
-        part2: [
-          { word: "as long as", opts: [{t:"~하는 한",v:"a"},{t:"~하자마자",v:"b"},{t:"~할 때까지",v:"c"}], ans: "a" },
-          { word: "don't care", opts: [{t:"상관하지 않다",v:"a"},{t:"돌보다",v:"b"},{t:"걱정하다",v:"c"}], ans: "a" },
-          { word: "loneliness", opts: [{t:"외로움",v:"a"},{t:"행복",v:"b"},{t:"슬픔",v:"c"}], ans: "a" },
-          { word: "destiny", opts: [{t:"운명",v:"a"},{t:"우연",v:"b"},{t:"과거",v:"c"}], ans: "a" },
-          { word: "hide", opts: [{t:"숨기다",v:"a"},{t:"찾다",v:"b"},{t:"보여주다",v:"c"}], ans: "a" }
-        ],
-        part3: [
-          { q: "'~하는 한' 접속사 표현: _____ long as you love me.", ans: "as" },
-          { q: "'네가 누군지 상관없어': I don't _____ who you are.", ans: "care" },
-          { q: "'네가 어디서 왔는지': _____ you're from.", ans: "where" },
-          { q: "'네가 무엇을 했는지': What you _____", ans: "did" },
-          { q: "핵심 후렴구: As long as you _____ me.", ans: "love" }
-        ],
-        lyrics: [
-          { en: "As long as you love me, I don't care who you are.", kr: "당신이 나를 사랑하는 한, 당신이 누구든 상관없어요." },
-          { en: "Where you're from, what you did, as long as you love me.", kr: "당신이 어디서 왔든, 무엇을 했든, 당신이 나를 사랑하는 한은요." }
-        ]
-      },
-      {
-        id: "s6",
-        title: "6. Maroon 5 - Memories",
-        videoId: "SlPhMPnE54A",
-        part1: [
-          { q: "Here's to the ones that we _____", opts: [{t:"got",v:"a"},{t:"lost",v:"b"},{t:"found",v:"c"}], ans: "a" },
-          { q: "Cheers to the wish you were here, but you're _____", opts: [{t:"not",v:"a"},{t:"here",v:"b"},{t:"there",v:"c"}], ans: "a" },
-          { q: "'Cause the memories bring back _____", opts: [{t:"memories",v:"a"},{t:"friends",v:"b"},{t:"tears",v:"c"}], ans: "a" },
-          { q: "And the memories bring back _____", opts: [{t:"you",v:"a"},{t:"me",v:"b"},{t:"us",v:"c"}], ans: "a" },
-          { q: "There's a time that I _____ I never would feel I ever get old", opts: [{t:"remember",v:"a"},{t:"forgot",v:"b"},{t:"thought",v:"c"}], ans: "a" }
-        ],
-        part2: [
-          { word: "memories", opts: [{t:"추억, 기억",v:"a"},{t:"선물",v:"b"},{t:"시간",v:"c"}], ans: "a" },
-          { word: "cheers", opts: [{t:"건배",v:"a"},{t:"사과",v:"b"},{t:"인사",v:"c"}], ans: "a" },
-          { word: "bring back", opts: [{t:"~을 되살리다, 갖고 돌아오다",v:"a"},{t:"버리다",v:"b"},{t:"잊다",v:"c"}], ans: "a" },
-          { word: "carry", opts: [{t:"나르다, 지니다",v:"a"},{t:"놓치다",v:"b"},{t:"던지다",v:"c"}], ans: "a" },
-          { word: "toast", opts: [{t:"축배를 들다",v:"a"},{t:"빵을 굽다",v:"b"},{t:"웃다",v:"c"}], ans: "a" }
-        ],
-        part3: [
-          { q: "'축배/건배를 위하여': Here's to the ones that we _____", ans: "got" },
-          { q: "'추억'을 의미하는 단어: Memories bring back _____", ans: "memories" },
-          { q: "'너를 다시 떠올리게 해': Bring back _____", ans: "you" },
-          { q: "'모든 사람은 때로 아프다': Everybody _____ sometimes.", ans: "hurts" },
-          { q: "'모든 것은 괜찮아질 거야': Everything will be _____", ans: "okay" }
-        ],
-        lyrics: [
-          { en: "Here's to the ones that we got, cheers to the wish you were here, but you're not.", kr: "우리가 함께했던 이들을 위해 건배, 당신이 여기 있길 바라지만 그렇지 못함에 건배." },
-          { en: "'Cause the memories bring back memories, bring back you.", kr: "추억은 추억을 불러오고, 그 추억은 다시 당신을 불러오니까요." }
-        ]
-      },
-      {
-        id: "s7",
-        title: "7. Justin Bieber - Love Yourself",
-        videoId: "oyEuk8j8imI",
-        part1: [
-          { q: "My mama don't like you and she _____ everyone.", opts: [{t:"likes",v:"a"},{t:"hates",v:"b"},{t:"knows",v:"c"}], ans: "a" },
-          { q: "And I never like to _____ that I was wrong.", opts: [{t:"admit",v:"a"},{t:"say",v:"b"},{t:"think",v:"c"}], ans: "a" },
-          { q: "And I've been so caught up in my _____", opts: [{t:"job",v:"a"},{t:"mind",v:"b"},{t:"life",v:"c"}], ans: "a" },
-          { q: "Didn't see what's going _____", opts: [{t:"on",v:"a"},{t:"by",v:"b"},{t:"out",v:"c"}], ans: "a" },
-          { q: "Oh baby you should go and _____ yourself.", opts: [{t:"love",v:"a"},{t:"help",v:"b"},{t:"know",v:"c"}], ans: "a" }
-        ],
-        part2: [
-          { word: "admit", opts: [{t:"인정하다",v:"a"},{t:"거절하다",v:"b"},{t:"비난하다",v:"c"}], ans: "a" },
-          { word: "caught up in", opts: [{t:"~에 붙잡힌, 몰두한",v:"a"},{t:"~에서 벗어난",v:"b"},{t:"~를 포기한",v:"c"}], ans: "a" },
-          { word: "hold on to", opts: [{t:"~을 붙잡다, 매달리다",v:"a"},{t:"~을 버리다",v:"b"},{t:"~을 잊다",v:"c"}], ans: "a" },
-          { word: "prejudice", opts: [{t:"편견",v:"a"},{t:"사랑",v:"b"},{t:"진실",v:"c"}], ans: "a" },
-          { word: "break down", opts: [{t:"무너지다, 고장나다",v:"a"},{t:"일어나다",v:"b"},{t:"성장하다",v:"c"}], ans: "a" }
-        ],
-        part3: [
-          { q: "'인정하다' 단어: I never like to _____ that I was wrong.", ans: "admit" },
-          { q: "'내 일/직업에 매여 있었다': Caught up in my _____.", ans: "job" },
-          { q: "'너 자신을 사랑하라': You should go and _____ yourself.", ans: "love" },
-          { q: "'여전히 마음이 남아있다면': If you think that I'm still holdin' on to _____", ans: "something" },
-          { q: "'너는 가서 너 자신을 사랑해야 해': Go and love _____", ans: "yourself" }
-        ],
-        lyrics: [
-          { en: "For all the times that you rained on my parade, and all the clubs you get in using my name.", kr: "내 기분을 망쳤던 그 모든 순간들과 내 이름을 이용해 들어갔던 클럽들을 생각하면." },
-          { en: "My mama don't like you and she likes everyone.", kr: "우리 엄마는 모두를 좋아하는데 당신은 좋아하지 않아요." },
-          { en: "If you think that I'm still holdin' on to something, you should go and love yourself.", kr: "내가 아직도 미련이 남아있다고 생각한다면, 너나 잘 사세요(너 자신이나 사랑하세요)." }
-        ]
-      },
-      {
-        id: "s8",
-        title: "8. Daniel Caesar - Best Part",
-        videoId: "vBy7FaapGRo",
-        part1: [
-          { q: "You're the _____ of my life.", opts: [{t:"sun",v:"a"},{t:"light",v:"b"},{t:"star",v:"c"}], ans: "a" },
-          { q: "You're the water when I'm _____.", opts: [{t:"dry",v:"a"},{t:"cold",v:"b"},{t:"sad",v:"c"}], ans: "a" },
-          { q: "You're the coffee that I _____ in the morning.", opts: [{t:"need",v:"a"},{t:"drink",v:"b"},{t:"make",v:"c"}], ans: "a" },
-          { q: "You're my sunshine in the _____", opts: [{t:"rain",v:"a"},{t:"dark",v:"b"},{t:"sky",v:"c"}], ans: "a" },
-          { q: "If life is a movie, then you're the _____ part.", opts: [{t:"best",v:"a"},{t:"first",v:"b"},{t:"main",v:"c"}], ans: "a" }
-        ],
-        part2: [
-          { word: "sunshine", opts: [{t:"햇살, 햇빛",v:"a"},{t:"구름",v:"b"},{t:"소나기",v:"c"}], ans: "a" },
-          { word: "movie", opts: [{t:"영화",v:"a"},{t:"소설",v:"b"},{t:"연극",v:"c"}], ans: "a" },
-          { word: "desire", opts: [{t:"욕망, 바램",v:"a"},{t:"절망",v:"b"},{t:"두려움",v:"c"}], ans: "a" },
-          { word: "part", opts: [{t:"부분, 역할",v:"a"},{t:"전체",v:"b"},{t:"끝",v:"c"}], ans: "a" },
-          { word: "stream", opts: [{t:"시냇물, 흐름",v:"a"},{t:"바다",v:"b"},{t:"호수",v:"c"}], ans: "a" }
-        ],
-        part3: [
-          { q: "'내 삶의 햇살': You're the _____ of my life.", ans: "sun" },
-          { q: "'아침에 필요한 커피': You're the coffee that I _____ in the morning.", ans: "need" },
-          { q: "'비 올 때의 햇살': You're my sunshine in the _____", ans: "rain" },
-          { q: "'인생이 영화라면': If life is a _____", ans: "movie" },
-          { q: "'가장 좋은 부분': You're the _____ part.", ans: "best" }
-        ],
-        lyrics: [
-          { en: "You're the sun of my life. You're the water when I'm dry.", kr: "당신은 내 삶의 햇살이자, 목마를 때의 오아시스 같아요." },
-          { en: "If life is a movie, then you're the best part.", kr: "인생이 한 편의 영화라면, 당신은 가장 하이라이트 부분이에요." }
-        ]
-      },
-      {
-        id: "s9",
-        title: "9. Lukas Graham - 7 Years",
-        videoId: "LHCob76kigA",
-        part1: [
-          { q: "Once I was seven years old, my mama _____ me...", opts: [{t:"told",v:"a"},{t:"taught",v:"b"},{t:"asked",v:"c"}], ans: "a" },
-          { q: "Go make yourself some _____", opts: [{t:"friends",v:"a"},{t:"money",v:"b"},{t:"plans",v:"c"}], ans: "a" },
-          { q: "Or you'll be _____.", opts: [{t:"lonely",v:"a"},{t:"poor",v:"b"},{t:"sad",v:"c"}], ans: "a" },
-          { q: "Once I was eleven years old, my daddy _____ me...", opts: [{t:"told",v:"a"},{t:"gave",v:"b"},{t:"showed",v:"c"}], ans: "a" },
-          { q: "Go get yourself a _____", opts: [{t:"wife",v:"a"},{t:"job",v:"b"},{t:"car",v:"c"}], ans: "a" }
-        ],
-        part2: [
-          { word: "lonely", opts: [{t:"외로운",v:"a"},{t:"행복한",v:"b"},{t:"바쁜",v:"c"}], ans: "a" },
-          { word: "steady", opts: [{t:"꾸준한, 안정된",v:"a"},{t:"흔들리는",v:"b"},{t:"빠른",v:"c"}], ans: "a" },
-          { word: "glory", opts: [{t:"영광",v:"a"},{t:"슬픔",v:"b"},{t:"패배",v:"c"}], ans: "a" },
-          { word: "remember", opts: [{t:"기억하다",v:"a"},{t:"잊다",v:"b"},{t:"지우다",v:"c"}], ans: "a" },
-          { word: "failure", opts: [{t:"실패",v:"a"},{t:"성공",v:"b"},{t:"도전",v:"c"}], ans: "a" }
-        ],
-        part3: [
-          { q: "'7살이었을 때': Once I was _____ years old.", ans: "seven" },
-          { q: "'친구들을 사귀어라': Go make yourself some _____", ans: "friends" },
-          { q: "'외로워질 거야': Or you'll be _____", ans: "lonely" },
-          { q: "'아버지가 말씀하셨다': My daddy _____ me.", ans: "told" },
-          { q: "'아내를 찾아라': Go get yourself a _____", ans: "wife" }
-        ],
-        lyrics: [
-          { en: "Once I was seven years old, my mama told me, Go make yourself some friends or you'll be lonely.", kr: "내가 일곱 살이었을 때, 엄마는 외로워지지 않으려면 가서 친구들을 사귀라고 하셨죠." },
-          { en: "Once I was eleven years old, my daddy told me, Go get yourself a wife or you'll be lonely.", kr: "내가 열한 살이었을 때, 아빠는 외로워지지 않으려면 가정을 꾸리라고 하셨죠." }
-        ]
-      },
-      {
-        id: "s10",
-        title: "10. Charlie Puth - One Call Away",
-        videoId: "BzxveI8A2aI",
-        part1: [
-          { q: "I'm only one _____ away.", opts: [{t:"call",v:"a"},{t:"step",v:"b"},{t:"day",v:"c"}], ans: "a" },
-          { q: "I'll be there to _____ the day.", opts: [{t:"save",v:"a"},{t:"change",v:"b"},{t:"start",v:"c"}], ans: "a" },
-          { q: "Superman got _____ on me.", opts: [{t:"nothing",v:"a"},{t:"something",v:"b"},{t:"everything",v:"c"}], ans: "a" },
-          { q: "Call me, baby, if you need a _____", opts: [{t:"friend",v:"a"},{t:"hand",v:"b"},{t:"hug",v:"c"}], ans: "a" },
-          { q: "Just wanna give you _____", opts: [{t:"love",v:"a"},{t:"hope",v:"b"},{t:"help",v:"c"}], ans: "a" }
-        ],
-        part2: [
-          { word: "one call away", opts: [{t:"전화 한 통이면 닿을 거리에 있는",v:"a"},{t:"아주 먼",v:"b"},{t:"연락이 안 되는",v:"c"}], ans: "a" },
-          { word: "save the day", opts: [{t:"궁지를 벗어나게 하다",v:"a"},{t:"날짜를 저장하다",v:"b"},{t:"하루를 보내다",v:"c"}], ans: "a" },
-          { word: "hold on", opts: [{t:"기다리다, 견디다",v:"a"},{t:"놓아주다",v:"b"},{t:"전화를 끊다",v:"c"}], ans: "a" },
-          { word: "strength", opts: [{t:"힘, 강함",v:"a"},{t:"약함",v:"b"},{t:"두려움",v:"c"}], ans: "a" },
-          { word: "reassure", opts: [{t:"안심시키다",v:"a"},{t:"의심하다",v:"b"},{t:"걱정하다",v:"c"}], ans: "a" }
-        ],
-        part3: [
-          { q: "'전화 한 통 거리': I'm only one _____ away.", ans: "call" },
-          { q: "'너를 구하기 위해': I'll be there to _____ the day.", ans: "save" },
-          { q: "'슈퍼맨도 나한텐 안 돼': Superman got _____ on me.", ans: "nothing" },
-          { q: "'친구/도움이 필요할 때': If you need a _____", ans: "friend" },
-          { q: "'나를 불러줘': _____ me, baby.", ans: "call" }
-        ],
-        lyrics: [
-          { en: "I'm only one call away, I'll be there to save the day.", kr: "전화 한 통이면 돼요, 당신을 구해줄게요." },
-          { en: "Superman got nothing on me, I'm only one call away.", kr: "슈퍼맨도 나만큼은 못 할걸요, 전화 한 통이면 바로 갈게요." }
-        ]
-      },
-      {
-        id: "s11",
-        title: "11. Taylor Swift - You Belong With Me",
-        videoId: "VuNIsY6JdUw",
-        part1: [
-          { q: "She wears short skirts, I wear _____.", opts: [{t:"T-shirts",v:"a"},{t:"jeans",v:"b"},{t:"dresses",v:"c"}], ans: "a" },
-          { q: "She's Cheer Captain and I'm on the _____.", opts: [{t:"bleachers",v:"a"},{t:"bench",v:"b"},{t:"stage",v:"c"}], ans: "a" },
-          { q: "Dreaming about the day when you _____ up and find...", opts: [{t:"wake",v:"a"},{t:"get",v:"b"},{t:"look",v:"c"}], ans: "a" },
-          { q: "That what you're looking for has been here the _____ time.", opts: [{t:"whole",v:"a"},{t:"first",v:"b"},{t:"long",v:"c"}], ans: "a" },
-          { q: "Can't you see that I'm the one who _____ you?", opts: [{t:"understands",v:"a"},{t:"loves",v:"b"},{t:"knows",v:"c"}], ans: "a" }
-        ],
-        part2: [
-          { word: "cheer captain", opts: [{t:"치어리더 주장",v:"a"},{t:"학생회장",v:"b"},{t:"운동선수",v:"c"}], ans: "a" },
-          { word: "bleachers", opts: [{t:"야외 스탠드 관람석",v:"a"},{t:"무대",v:"b"},{t:"교실",v:"c"}], ans: "a" },
-          { word: "belong with", opts: [{t:"~와 어울리다, ~의 짝이다",v:"a"},{t:"~를 떠나다",v:"b"},{t:"~를 반대하다",v:"c"}], ans: "a" },
-          { word: "typical", opts: [{t:"전형적인, 일반적인",v:"a"},{t:"특이한",v:"b"},{t:"새로운",v:"c"}], ans: "a" },
-          { word: "humor", opts: [{t:"유머, 유쾌함",v:"a"},{t:"화",v:"b"},{t:"슬픔",v:"c"}], ans: "a" }
-        ],
-        part3: [
-          { q: "'그녀는 짧은 치마를 입고, 나는 T-셔츠를 입어': I wear _____-shirts.", ans: "t" },
-          { q: "'관람석에 앉아 있어': On the _____", ans: "bleachers" },
-          { q: "'깨어나는 날': Dreaming about the day when you _____ up.", ans: "wake" },
-          { q: "'너를 이해해 주는 단 한 사람': The one who _____ you.", ans: "understands" },
-          { q: "'너는 나와 함께해야 해': You _____ with me.", ans: "belong" }
-        ],
-        lyrics: [
-          { en: "She wears short skirts, I wear T-shirts. She's Cheer Captain and I'm on the bleachers.", kr: "그녀는 짧은 치마를 입고 나는 티셔츠를 입죠. 그녀는 치어리더 주장이고 나는 관람석에 앉아있고요." },
-          { en: "Been here all along, so why can't you see? You belong with me.", kr: "줄곧 여기 있었는데 왜 모르는 건가요? 당신 짝은 바로 나인데." }
-        ]
-      },
-      {
-        id: "s12",
-        title: "12. Ed Sheeran - Perfect",
-        videoId: "2Vv-BfVoq4g",
-        part1: [
-          { q: "I found a _____, for me.", opts: [{t:"love",v:"a"},{t:"friend",v:"b"},{t:"girl",v:"c"}], ans: "a" },
-          { q: "Darling, just _____ right in and follow my lead.", opts: [{t:"dive",v:"a"},{t:"come",v:"b"},{t:"jump",v:"c"}], ans: "a" },
-          { q: "Well, I found a girl, _____ and sweet.", opts: [{t:"beautiful",v:"a"},{t:"kind",v:"b"},{t:"nice",v:"c"}], ans: "a" },
-          { q: "I never knew you were the someone _____ for me.", opts: [{t:"waiting",v:"a"},{t:"looking",v:"b"},{t:"calling",v:"c"}], ans: "a" },
-          { q: "Baby, I'm _____ in the dark with you between my arms.", opts: [{t:"dancing",v:"a"},{t:"singing",v:"b"},{t:"walking",v:"c"}], ans: "a" }
-        ],
-        part2: [
-          { word: "follow my lead", opts: [{t:"내가 이끄는 대로 따르다",v:"a"},{t:"나를 앞서가다",v:"b"},{t:"나를 가르치다",v:"c"}], ans: "a" },
-          { word: "whisper", opts: [{t:"속삭이다",v:"a"},{t:"소리지르다",v:"b"},{t:"웃다",v:"c"}], ans: "a" },
-          { word: "against all odds", opts: [{t:"모든 역경을 무릅쓰고",v:"a"},{t:"쉽게",v:"b"},{t:"우연히",v:"c"}], ans: "a" },
-          { word: "perfect", opts: [{t:"완벽한",v:"a"},{t:"부족한",v:"b"},{t:"평범한",v:"c"}], ans: "a" },
-          { word: "barefoot", opts: [{t:"맨발의",v:"a"},{t:"신발을 신은",v:"b"},{t:"뛰어가는",v:"c"}], ans: "a" }
-        ],
-        part3: [
-          { q: "'사랑을 찾았어요': I found a _____.", ans: "love" },
-          { q: "'나를 따라와요': Follow my _____", ans: "lead" },
-          { q: "'아름답고 다정한': Beautiful and _____", ans: "sweet" },
-          { q: "'나를 기다려준 사람': Someone _____ for me.", ans: "waiting" },
-          { q: "'어둠 속에서 춤추며': _____ in the dark.", ans: "dancing" }
-        ],
-        lyrics: [
-          { en: "I found a love for me. Darling, just dive right in and follow my lead.", kr: "나만의 사랑을 찾았어요. 내 사랑, 망설이지 말고 나와 함께해요." },
-          { en: "Baby, I'm dancing in the dark with you between my arms, barefoot on the grass.", kr: "그대여, 잔디밭 위에 맨발로 그대를 품에 안고 어둠 속에서 춤을 추고 있어요." }
-        ]
-      },
-      {
-        id: "s13",
-        title: "13. Coldplay - Viva La Vida",
-        videoId: "dvgZkm1xWPE",
-        part1: [
-          { q: "I used to _____ the world.", opts: [{t:"rule",v:"a"},{t:"change",v:"b"},{t:"see",v:"c"}], ans: "a" },
-          { q: "Seas would _____ when I gave the word.", opts: [{t:"rise",v:"a"},{t:"part",v:"b"},{t:"fall",v:"c"}], ans: "a" },
-          { q: "Now in the morning I sleep _____", opts: [{t:"alone",v:"a"},{t:"well",v:"b"},{t:"late",v:"c"}], ans: "a" },
-          { q: "Sweep the _____ I used to own.", opts: [{t:"streets",v:"a"},{t:"floors",v:"b"},{t:"roads",v:"c"}], ans: "a" },
-          { q: "I used to roll the _____", opts: [{t:"dice",v:"a"},{t:"stone",v:"b"},{t:"ball",v:"c"}], ans: "a" }
-        ],
-        part2: [
-          { word: "rule", opts: [{t:"지배하다, 다스리다",v:"a"},{t:"파괴하다",v:"b"},{t:"창조하다",v:"c"}], ans: "a" },
-          { word: "sweep", opts: [{t:"쓸다, 청소하다",v:"a"},{t:"더럽히다",v:"b"},{t:"건너다",v:"c"}], ans: "a" },
-          { word: "roll the dice", opts: [{t:"주사위를 던지다, 운에 맡기다",v:"a"},{t:"게임을 끝내다",v:"b"},{t:"규칙을 어기다",v:"c"}], ans: "a" },
-          { word: "castle", opts: [{t:"성",v:"a"},{t:"집",v:"b"},{t:"다리",v:"c"}], ans: "a" },
-          { word: "pillar", opts: [{t:"기둥",v:"a"},{t:"지붕",v:"b"},{t:"문",v:"c"}], ans: "a" }
-        ],
-        part3: [
-          { q: "'세상을 지배했었다': I used to _____ the world.", ans: "rule" },
-          { q: "'바다가 솟구치곤 했다': Seas would _____.", ans: "rise" },
-          { q: "'혼자 잠든다': I sleep _____", ans: "alone" },
-          { q: "'거리를 쓸다': Sweep the _____", ans: "streets" },
-          { q: "'주사위를 던지곤 했다': Roll the _____", ans: "dice" }
-        ],
-        lyrics: [
-          { en: "I used to rule the world. Seas would rise when I gave the word.", kr: "나는 한때 세상을 호령했었지. 내가 한마디 하면 바다도 솟구쳤었지." },
-          { en: "Now in the morning I sleep alone, sweep the streets I used to own.", kr: "이제 나는 아침에 혼자 잠에서 깨어, 내가 소유했던 거리를 쓸고 있다네." }
-        ]
-      },
-      {
-        id: "s14",
-        title: "14. Queen - Don't Stop Me Now",
-        videoId: "HgzGwKwLmgM",
-        part1: [
-          { q: "Don't _____ me now, I'm having such a good time.", opts: [{t:"stop",v:"a"},{t:"call",v:"b"},{t:"leave",v:"c"}], ans: "a" },
-          { q: "I'm a shooting _____ leaping through the sky.", opts: [{t:"star",v:"a"},{t:"light",v:"b"},{t:"moon",v:"c"}], ans: "a" },
-          { q: "Like a tiger defying the laws of _____", opts: [{t:"gravity",v:"a"},{t:"nature",v:"b"},{t:"motion",v:"c"}], ans: "a" },
-          { q: "I'm gonna go, go, go, there's no _____ me.", opts: [{t:"stopping",v:"a"},{t:"holding",v:"b"},{t:"catching",v:"c"}], ans: "a" },
-          { q: "I'm having a _____", opts: [{t:"ball",v:"a"},{t:"party",v:"b"},{t:"time",v:"c"}], ans: "a" }
-        ],
-        part2: [
-          { word: "shooting star", opts: [{t:"유성, 똥별",v:"a"},{t:"태양",v:"b"},{t:"인공위성",v:"c"}], ans: "a" },
-          { word: "defying", opts: [{t:"반항하는, 거역하는",v:"a"},{t:"따르는",v:"b"},{t:"도와주는",v:"c"}], ans: "a" },
-          { word: "gravity", opts: [{t:"중력",v:"a"},{t:"속도",v:"b"},{t:"바람",v:"c"}], ans: "a" },
-          { word: "have a ball", opts: [{t:"즐거운 시간을 보내다",v:"a"},{t:"공을 줍다",v:"b"},{t:"춤을 추다",v:"c"}], ans: "a" },
-          { word: "unstoppable", opts: [{t:"멈출 수 없는",v:"a"},{t:"느린",v:"b"},{t:"위험한",v:"c"}], ans: "a" }
-        ],
-        part3: [
-          { q: "'나를 멈추지 마': Don't _____ me now.", ans: "stop" },
-          { q: "'유성, 별': A shooting _____", ans: "star" },
-          { q: "'중력': Laws of _____", ans: "gravity" },
-          { q: "'나를 멈출 수 없어': There's no _____ me.", ans: "stopping" },
-          { q: "'즐거운 시간을 보내다': Having a _____", ans: "ball" }
-        ],
-        lyrics: [
-          { en: "Don't stop me now, I'm having such a good time, I'm having a ball.", kr: "지금 나를 멈추지 마요, 난 너무 즐거운 시간을 보내고 있단 말이에요." },
-          { en: "I'm a shooting star leaping through the sky like a tiger defying the laws of gravity.", kr: "나는 중력의 법칙을 거스르는 호랑이처럼 하늘을 뛰어넘는 유성이라구요." }
-        ]
-      },
-      {
-        id: "s15",
-        title: "15. Shawn Mendes - Treat You Better",
-        videoId: "lY2yjAdbvdQ",
-        part1: [
-          { q: "I know I can treat you _____ than he can.", opts: [{t:"better",v:"a"},{t:"faster",v:"b"},{t:"longer",v:"c"}], ans: "a" },
-          { q: "And any girl like you deserves a _____", opts: [{t:"gentleman",v:"a"},{t:"prince",v:"b"},{t:"king",v:"c"}], ans: "a" },
-          { q: "Tell me why are we wasting _____?", opts: [{t:"time",v:"a"},{t:"money",v:"b"},{t:"words",v:"c"}], ans: "a" },
-          { q: "On all your wasted _____", opts: [{t:"crying",v:"a"},{t:"time",v:"b"},{t:"sighs",v:"c"}], ans: "a" },
-          { q: "When you should be with _____ instead.", opts: [{t:"me",v:"a"},{t:"him",v:"b"},{t:"them",v:"c"}], ans: "a" }
-        ],
-        part2: [
-          { word: "treat", opts: [{t:"대우하다, 대하다",v:"a"},{t:"무시하다",v:"b"},{t:"떠나다",v:"c"}], ans: "a" },
-          { word: "deserve", opts: [{t:"~을 받을 자격이 있다",v:"a"},{t:"잃어버리다",v:"b"},{t:"거절하다",v:"c"}], ans: "a" },
-          { word: "gentleman", opts: [{t:"신사",v:"a"},{t:"소년",v:"b"},{t:"왕자",v:"c"}], ans: "a" },
-          { word: "wasting time", opts: [{t:"시간을 낭비하다",v:"a"},{t:"시간을 아끼다",v:"b"},{t:"시간을 즐기다",v:"c"}], ans: "a" },
-          { word: "instead", opts: [{t:"대신에",v:"a"},{t:"함께",v:"b"},{t:"나중에",v:"c"}], ans: "a" }
-        ],
-        part3: [
-          { q: "'더 잘 대해주다': Treat you _____", ans: "better" },
-          { q: "'신사': Deserves a _____", ans: "gentleman" },
-          { q: "'시간을 낭비하다': Wasting _____", ans: "time" },
-          { q: "'울며 보낸 시간': Wasted _____", ans: "crying" },
-          { q: "'대신에': With me _____", ans: "instead" }
-        ],
-        lyrics: [
-          { en: "I know I can treat you better than he can.", kr: "내가 그 사람보다 너를 훨씬 더 잘 대해줄 수 있다는 걸 알아." },
-          { en: "And any girl like you deserves a gentleman.", kr: "너 같은 사람은 신사다운 사람을 만날 자격이 있으니까." }
-        ]
-      },
-      {
-        id: "s16",
-        title: "16. One Direction - What Makes You Beautiful",
-        videoId: "QJO3ROT-A4E",
-        part1: [
-          { q: "You don't know you're _____", opts: [{t:"beautiful",v:"a"},{t:"pretty",v:"b"},{t:"special",v:"c"}], ans: "a" },
-          { q: "That's what makes you _____", opts: [{t:"beautiful",v:"a"},{t:"smile",v:"b"},{t:"shine",v:"c"}], ans: "a" },
-          { q: "Baby, you light up my _____ like nobody else.", opts: [{t:"world",v:"a"},{t:"life",v:"b"},{t:"room",v:"c"}], ans: "a" },
-          { q: "The way that you flip your hair gets me _____", opts: [{t:"overwhelmed",v:"a"},{t:"confused",v:"b"},{t:"excited",v:"c"}], ans: "a" },
-          { q: "But when you smile at the ground it ain't hard to _____", opts: [{t:"tell",v:"a"},{t:"see",v:"b"},{t:"know",v:"c"}], ans: "a" }
-        ],
-        part2: [
-          { word: "light up", opts: [{t:"환하게 밝히다",v:"a"},{t:"어둡게 하다",v:"b"},{t:"불을 끄다",v:"c"}], ans: "a" },
-          { word: "overwhelmed", opts: [{t:"압도된, 벅찬",v:"a"},{t:"지루한",v:"b"},{t:"화난",v:"c"}], ans: "a" },
-          { word: "insecure", opts: [{t:"자신 없는, 불안정한",v:"a"},{t:"자신감 넘치는",v:"b"},{t:"강력한",v:"c"}], ans: "a" },
-          { word: "shyness", opts: [{t:"수줍음",v:"a"},{t:"당당함",v:"b"},{t:"용기",v:"c"}], ans: "a" },
-          { word: "desperately", opts: [{t:"필사적으로",v:"a"},{t:"천천히",v:"b"},{t:"쉽게",v:"c"}], ans: "a" }
-        ],
-        part3: [
-          { q: "'아름다운': You're _____", ans: "beautiful" },
-          { q: "'세상을 밝히다': Light up my _____", ans: "world" },
-          { q: "'머리를 찰랑거리다': Flip your _____", ans: "hair" },
-          { q: "'말하기 어렵지 않아': It ain't hard to _____", ans: "tell" },
-          { q: "'너를 아름답게 만드는 것': What makes you _____", ans: "beautiful" }
-        ],
-        lyrics: [
-          { en: "Baby, you light up my world like nobody else.", kr: "그대여, 당신은 그 누구도 할 수 없을 만큼 내 세상을 환하게 밝혀주네요." },
-          { en: "You don't know you're beautiful, that's what makes you beautiful.", kr: "당신은 스스로가 아름답다는 걸 모르지만, 바로 그 점이 당신을 아름답게 만드는 거예요." }
-        ]
-      },
-      {
-        id: "s17",
-        title: "17. Alessia Cara - Scars To Your Beautiful",
-        videoId: "MWASea8583U",
-        part1: [
-          { q: "There's a hope that's waiting for you in the _____", opts: [{t:"dark",v:"a"},{t:"light",v:"b"},{t:"rain",v:"c"}], ans: "a" },
-          { q: "You should know you're beautiful just the way you _____", opts: [{t:"are",v:"a"},{t:"look",v:"b"},{t:"feel",v:"c"}], ans: "a" },
-          { q: "And you don't have to change a _____", opts: [{t:"thing",v:"a"},{t:"part",v:"b"},{t:"word",v:"c"}], ans: "a" },
-          { q: "The world could change its _____", opts: [{t:"heart",v:"a"},{t:"mind",v:"b"},{t:"face",v:"c"}], ans: "a" },
-          { q: "No scars to your _____", opts: [{t:"beautiful",v:"a"},{t:"body",v:"b"},{t:"face",v:"c"}], ans: "a" }
-        ],
-        part2: [
-          { word: "scars", opts: [{t:"흉터, 상처",v:"a"},{t:"미소",v:"b"},{t:"화장",v:"c"}], ans: "a" },
-          { word: "starve", opts: [{t:"굶주리다",v:"a"},{t:"배부르다",v:"b"},{t:"먹다",v:"c"}], ans: "a" },
-          { word: "sculpture", opts: [{t:"조각품",v:"a"},{t:"그림",v:"b"},{t:"음악",v:"c"}], ans: "a" },
-          { word: "unblemished", opts: [{t:"흠이 없는, 흠없는",v:"a"},{t:"더러운",v:"b"},{t:"상처 입은",v:"c"}], ans: "a" },
-          { word: "cover up", opts: [{t:"숨기다, 감추다",v:"a"},{t:"reveal",v:"b"},{t:"open",v:"c"}], ans: "a" }
-        ],
-        part3: [
-          { q: "'어둠 속 소망': Waiting for you in the _____", ans: "dark" },
-          { q: "'있는 그대로': Just the way you _____", ans: "are" },
-          { q: "'단 하나도 바꿀 필요 없어': Don't have to change a _____", ans: "thing" },
-          { q: "'세상이 마음을 바꿔야 해': Change its _____", ans: "heart" },
-          { q: "'상처, 흉터': No _____ to your beautiful.", ans: "scars" }
-        ],
-        lyrics: [
-          { en: "You should know you're beautiful just the way you are, and you don't have to change a thing.", kr: "당신은 있는 그대로 아름답다는 걸 알아야 해요, 그 무엇도 바꿀 필요가 없죠." },
-          { en: "The world could change its heart. No scars to your beautiful.", kr: "세상이 그 마음을 바꾸어야 해요. 당신의 아름다움에는 아무런 흉터가 없으니까요." }
-        ]
-      },
-      {
-        id: "s18",
-        title: "18. Jason Mraz - I'm Yours",
-        videoId: "EkHTsc9PU2A",
-        part1: [
-          { q: "I won't hesitate no more, no more, it cannot _____", opts: [{t:"wait",v:"a"},{t:"stop",v:"b"},{t:"last",v:"c"}], ans: "a" },
-          { q: "I'm _____", opts: [{t:"yours",v:"a"},{t:"mine",v:"b"},{t:"free",v:"c"}], ans: "a" },
-          { q: "Open up your mind and see like _____", opts: [{t:"me",v:"a"},{t:"you",v:"b"},{t:"them",v:"c"}], ans: "a" },
-          { q: "Open up your plans and damn, you're _____", opts: [{t:"free",v:"a"},{t:"good",v:"b"},{t:"fine",v:"c"}], ans: "a" },
-          { q: "Look into your heart and you'll find _____ love", opts: [{t:"love",v:"a"},{t:"peace",v:"b"},{t:"joy",v:"c"}], ans: "a" }
-        ],
-        part2: [
-          { word: "hesitate", opts: [{t:"망설이다, 주저하다",v:"a"},{t:"결정하다",v:"b"},{t:"서두르다",v:"c"}], ans: "a" },
-          { word: "reckon", opts: [{t:"생각하다, 추정하다",v:"a"},{t:"거짓말하다",v:"b"},{t:"잊다",v:"c"}], ans: "a" },
-          { word: "divine", opts: [{t:"신성한, 아주 멋진",v:"a"},{t:"평범한",v:"b"},{t:"나쁜",v:"c"}], ans: "a" },
-          { word: "shortcut", opts: [{t:"지름길",v:"a"},{t:"돌아가길",v:"b"},{t:"막힌 길",v:"c"}], ans: "a" },
-          { word: "destiny", opts: [{t:"운명",v:"a"},{t:"우연",v:"b"},{t:"과거",v:"c"}], ans: "a" }
-        ],
-        part3: [
-          { q: "'망설이지 않겠다': I won't _____", ans: "hesitate" },
-          { q: "'기다릴 수 없다': It cannot _____", ans: "wait" },
-          { q: "'난 너의 것': I'm _____", ans: "yours" },
-          { q: "'마음을 열어': Open up your _____", ans: "mind" },
-          { q: "'자유로운': You're _____", ans: "free" }
-        ],
-        lyrics: [
-          { en: "Well, I won't hesitate no more, no more. It cannot wait, I'm yours.", kr: "난 더 이상 망설이지 않을 거예요. 더 이상 기다릴 수 없어요, 난 당신 것이에요." },
-          { en: "Open up your mind and see like me, open up your plans and damn, you're free.", kr: "마음을 열고 나처럼 세상을 바라보아요, 계획을 펼쳐보세요, 당신은 자유롭잖아요." }
-        ]
-      },
-      {
-        id: "s19",
-        title: "19. Billie Eilish - ocean eyes",
-        videoId: "viimfQi_pDA",
-        part1: [
-          { q: "I've been watching you for some _____", opts: [{t:"time",v:"a"},{t:"days",v:"b"},{t:"years",v:"c"}], ans: "a" },
-          { q: "Can't stop staring at those ocean _____", opts: [{t:"eyes",v:"a"},{t:"waves",v:"b"},{t:"blues",v:"c"}], ans: "a" },
-          { q: "Burning cities and napalm _____", opts: [{t:"skies",v:"a"},{t:"clouds",v:"b"},{t:"nights",v:"c"}], ans: "a" },
-          { q: "Fifteen flares inside those ocean _____", opts: [{t:"eyes",v:"a"},{t:"depths",v:"b"},{t:"tears",v:"c"}], ans: "a" },
-          { q: "Your ocean _____", opts: [{t:"eyes",v:"a"},{t:"mind",v:"b"},{t:"heart",v:"c"}], ans: "a" }
-        ],
-        part2: [
-          { word: "ocean eyes", opts: [{t:"바다 같은 눈동자",v:"a"},{t:"파도",v:"b"},{t:"푸른 바다",v:"c"}], ans: "a" },
-          { word: "stare", opts: [{t:"응시하다, 빤히 보다",v:"a"},{t:"힐끔 보다",v:"b"},{t:"눈을 감다",v:"c"}], ans: "a" },
-          { word: "flares", opts: [{t:"섬광, 불꽃",v:"a"},{t:"연기",v:"b"},{t:"재",v:"c"}], ans: "a" },
-          { word: "fall for", opts: [{t:"~에 빠지다, 반하다",v:"a"},{t:"~에서 넘어지다",v:"b"},{t:"~를 거절하다",v:"c"}], ans: "a" },
-          { word: "devastating", opts: [{t:"충격적인, 가슴 찢어지는",v:"a"},{t:"기쁜",v:"b"},{t:"평화로운",v:"c"}], ans: "a" }
-        ],
-        part3: [
-          { q: "'한동안': For some _____", ans: "time" },
-          { q: "'응시하는 것을 멈출 수 없다': Can't stop _____", ans: "staring" },
-          { q: "'바다 같은 눈동자': Ocean _____", ans: "eyes" },
-          { q: "'불타는 도시들': Burning _____", ans: "cities" },
-          { q: "'하늘': Napalm _____", ans: "skies" }
-        ],
-        lyrics: [
-          { en: "I've been watching you for some time. Can't stop staring at those ocean eyes.", kr: "한동안 당신을 바라보고 있었죠. 그 바다 같은 눈동자를 응시하는 걸 멈출 수가 없어요." }
-        ]
-      },
-      {
-        id: "s20",
-        title: "20. Imagine Dragons - Demons",
-        videoId: "mWRsgZuwf_8",
-        part1: [
-          { q: "When the days are cold and the cards all _____", opts: [{t:"fold",v:"a"},{t:"fall",v:"b"},{t:"burn",v:"c"}], ans: "a" },
-          { q: "And the saints we see are all made of _____", opts: [{t:"gold",v:"a"},{t:"stone",v:"b"},{t:"dust",v:"c"}], ans: "a" },
-          { q: "When your dreams all fail and the ones we hail are the worst of _____", opts: [{t:"all",v:"a"},{t:"them",v:"b"},{t:"us",v:"c"}], ans: "a" },
-          { q: "No matter what we breed, we still are made of _____", opts: [{t:"greed",v:"a"},{t:"dirt",v:"b"},{t:"sin",v:"c"}], ans: "a" },
-          { q: "This is my kingdom _____", opts: [{t:"come",v:"a"},{t:"fall",v:"b"},{t:"rise",v:"c"}], ans: "a" }
-        ],
-        part2: [
-          { word: "demons", opts: [{t:"악마, 마음속의 어둠",v:"a"},{t:"천사",v:"b"},{t:"영웅",v:"c"}], ans: "a" },
-          { word: "greed", opts: [{t:"탐욕",v:"a"},{t:"친절",v:"b"},{t:"절제",v:"c"}], ans: "a" },
-          { word: "kingdom come", opts: [{t:"내세, 왕국",v:"a"},{t:"파멸",v:"b"},{t:"과거",v:"c"}], ans: "a" },
-          { word: "shelter", opts: [{t:"피난처, 보호하다",v:"a"},{t:"위험",v:"b"},{t:"공격",v:"c"}], ans: "a" },
-          { word: "masquerade", opts: [{t:"가면무도회, 위장",v:"a"},{t:"진실",v:"b"},{t:"고백",v:"c"}], ans: "a" }
-        ],
-        part3: [
-          { q: "'날들이 추워질 때': When the days are _____", ans: "cold" },
-          { q: "'금으로 만들어진': Made of _____", ans: "gold" },
-          { q: "'탐욕으로 만들어진': Made of _____", ans: "greed" },
-          { q: "'나의 악마들': My _____", ans: "demons" },
-          { q: "'너무 가까이 오지 마': Don't get too _____", ans: "close" }
-        ],
-        lyrics: [
-          { en: "Don't get too close, it's dark inside. It's where my demons hide.", kr: "너무 가까이 오지 마요, 내 안은 어두워요. 내 마음속 악마들이 숨어있는 곳이거든요." }
-        ]
-      },
-      {
-        id: "s21",
-        title: "21. Avicii - The Nights",
-        videoId: "UtF6Jej8yb4",
-        part1: [
-          { q: "He said, One day you'll leave this world _____", opts: [{t:"behind",v:"a"},{t:"ahead",v:"b"},{t:"alone",v:"c"}], ans: "a" },
-          { q: "So live a life you will _____", opts: [{t:"remember",v:"a"},{t:"forget",v:"b"},{t:"enjoy",v:"c"}], ans: "a" },
-          { q: "My father told me when I was just a _____", opts: [{t:"child",v:"a"},{t:"boy",v:"b"},{t:"man",v:"c"}], ans: "a" },
-          { q: "These are the nights that never _____", opts: [{t:"die",v:"a"},{t:"fade",v:"b"},{t:"end",v:"c"}], ans: "a" },
-          { q: "My father told me, Oh, oh, _____", opts: [{t:"yeah",v:"a"},{t:"no",v:"b"},{t:"boy",v:"c"}], ans: "a" }
-        ],
-        part2: [
-          { word: "leave behind", opts: [{t:"~을 뒤로하고 떠나다",v:"a"},{t:"~을 가지러 오다",v:"b"},{t:"~을 파괴하다",v:"c"}], ans: "a" },
-          { word: "remember", opts: [{t:"기억하다",v:"a"},{t:"잊다",v:"b"},{t:"슬퍼하다",v:"c"}], ans: "a" },
-          { word: "guided", opts: [{t:"인도된, 안내받은",v:"a"},{t:"버려진",v:"b"},{t:"방해받은",v:"c"}], ans: "a" },
-          { word: "wild", opts: [{t:"거친, 열정적인",v:"a"},{t:"얌전한",v:"b"},{t:"지루한",v:"c"}], ans: "a" },
-          { word: "conquer", opts: [{t:"정복하다, 극복하다",v:"a"},{t:"항복하다",v:"b"},{t:"피하다",v:"c"}], ans: "a" }
-        ],
-        part3: [
-          { q: "'이 세상을 뒤로하고 떠나다': Leave this world _____", ans: "behind" },
-          { q: "'기억할 만한 삶을 살아라': Live a life you will _____", ans: "remember" },
-          { q: "'내가 어린아이였을 때': When I was just a _____", ans: "child" },
-          { q: "'결코 사라지지 않을 밤들': Nights that never _____", ans: "die" },
-          { q: "'아버지가 말씀하셨다': My father _____ me.", ans: "told" }
-        ],
-        lyrics: [
-          { en: "He said, One day you'll leave this world behind, so live a life you will remember.", kr: "아버지는 말씀하셨지, 언젠가 너도 이 세상을 떠나게 될 테니 기억에 남을 만한 삶을 살거라." },
-          { en: "My father told me when I was just a child, These are the nights that never die.", kr: "내가 아주 어렸을 때 아버지는 말씀하셨지, 이 밤들은 결코 사라지지 않을 거란다." }
-        ]
-      },
-      {
-        id: "s22",
-        title: "22. Kelly Clarkson - Stronger",
-        videoId: "Xn676-fLq7I",
-        part1: [
-          { q: "What doesn't kill you makes you _____", opts: [{t:"stronger",v:"a"},{t:"harder",v:"b"},{t:"wiser",v:"c"}], ans: "a" },
-          { q: "Stand a little _____", opts: [{t:"taller",v:"a"},{t:"higher",v:"b"},{t:"stronger",v:"c"}], ans: "a" },
-          { q: "Doesn't mean I'm _____ when I'm alone.", opts: [{t:"lonely",v:"a"},{t:"sad",v:"b"},{t:"weak",v:"c"}], ans: "a" },
-          { q: "What doesn't kill you makes a _____", opts: [{t:"fighter",v:"a"},{t:"winner",v:"b"},{t:"hero",v:"c"}], ans: "a" },
-          { q: "Footsteps even _____", opts: [{t:"lighter",v:"a"},{t:"faster",v:"b"},{t:"softer",v:"c"}], ans: "a" }
-        ],
-        part2: [
-          { word: "stronger", opts: [{t:"더 강한",v:"a"},{t:"더 약한",v:"b"},{t:"더 빠른",v:"c"}], ans: "a" },
-          { word: "fighter", opts: [{t:"싸움꾼, 전사",v:"a"},{t:"패배자",v:"b"},{t:"겁쟁이",v:"c"}], ans: "a" },
-          { word: "footsteps", opts: [{t:"발걸음",v:"a"},{t:"손자국",v:"b"},{t:"소리",v:"c"}], ans: "a" },
-          { word: "lighter", opts: [{t:"더 가벼운",v:"a"},{t:"더 무거운",v:"b"},{t:"더 어두운",v:"c"}], ans: "a" },
-          { word: "stand tall", opts: [{t:"당당히 서다",v:"a"},{t:"쓰러지다",v:"b"},{t:"도망치다",v:"c"}], ans: "a" }
-        ],
-        part3: [
-          { q: "'너를 죽이지 못하는 시련은 너를 더 강하게 만든다': Makes you _____", ans: "stronger" },
-          { q: "'조금 더 당당하게 서다': Stand a little _____", ans: "taller" },
-          { q: "'혼자라고 해서 외로운 건 아니야': Doesn't mean I'm _____", ans: "lonely" },
-          { q: "'전사, 싸움꾼': Makes a _____", ans: "fighter" },
-          { q: "'발걸음': Footsteps even _____", ans: "lighter" }
-        ],
-        lyrics: [
-          { en: "What doesn't kill you makes you stronger, stand a little taller.", kr: "너를 죽이지 못하는 시련은 너를 더 강하게 만들고, 조금 더 당당히 서게 만든다." },
-          { en: "Doesn't mean I'm lonely when I'm alone.", kr: "혼자라고해서 내가 외롭다는 뜻은 아니야." }
-        ]
-      },
-      {
-        id: "s23",
-        title: "23. Katy Perry - Firework",
-        videoId: "QGJuMBdaqiw",
-        part1: [
-          { q: "'Cause baby, you're a _____", opts: [{t:"firework",v:"a"},{t:"star",v:"b"},{t:"diamond",v:"c"}], ans: "a" },
-          { q: "Come on, show 'em what you're _____", opts: [{t:"worth",v:"a"},{t:"doing",v:"b"},{t:"making",v:"c"}], ans: "a" },
-          { q: "Make 'em go, Oh, oh, _____", opts: [{t:"oh",v:"a"},{t:"ah",v:"b"},{t:"yeah",v:"c"}], ans: "a" },
-          { q: "As you shoot across the _____", opts: [{t:"sky",v:"a"},{t:"night",v:"b"},{t:"air",v:"c"}], ans: "a" },
-          { q: "You don't have to feel like a waste of _____", opts: [{t:"space",v:"a"},{t:"time",v:"b"},{t:"life",v:"c"}], ans: "a" }
-        ],
-        part2: [
-          { word: "firework", opts: [{t:"불꽃, 폭죽",v:"a"},{t:"촛불",v:"b"},{t:"번개",v:"c"}], ans: "a" },
-          { word: "worth", opts: [{t:"가치",v:"a"},{t:"가격",v:"b"},{t:"낭비",v:"c"}], ans: "a" },
-          { word: "waste of space", opts: [{t:"쓸모없는 존재",v:"a"},{t:"공간 낭비",v:"b"},{t:"우주 쓰레기",v:"c"}], ans: "a" },
-          { word: "burst", opts: [{t:"터뜨리다, 분출하다",v:"a"},{t:"숨기다",v:"b"},{t:"모으다",v:"c"}], ans: "a" },
-          { word: "ignite", opts: [{t:"불을 붙이다, 점화하다",v:"a"},{t:"끄다",v:"b"},{t:"시원하게 하다",v:"c"}], ans: "a" }
-        ],
-        part3: [
-          { q: "'너는 불꽃이야': You're a _____", ans: "firework" },
-          { q: "'네 가치를 보여줘': Show 'em what you're _____", ans: "worth" },
-          { q: "'하늘을 가로질러 쏘아 올려질 때': Shoot across the _____", ans: "sky" },
-          { q: "'불꽃을 터뜨려라': Ignite the _____", ans: "light" },
-          { q: "'빛나게 해': Let it _____", ans: "shine" }
-        ],
-        lyrics: [
-          { en: "'Cause baby, you're a firework. Come on, show 'em what you're worth.", kr: "왜냐하면 그대여, 당신은 불꽃이니까요. 어서 당신의 가치를 사람들에게 보여주세요." },
-          { en: "Make 'em go, Oh, oh, oh, as you shoot across the sky.", kr: "당신이 하늘을 가로질러 불꽃을 쏘아 올릴 때 감탄을 자아내게 만들어봐요." }
-        ]
-      },
-      {
-        id: "s24",
-        title: "24. The Beatles - Let It Be",
-        videoId: "QDYfEBY9NM4",
-        part1: [
-          { q: "When I find myself in times of trouble, Mother Mary _____ to me.", opts: [{t:"comes",v:"a"},{t:"sings",v:"b"},{t:"calls",v:"c"}], ans: "a" },
-          { q: "Speaking words of wisdom, let it _____", opts: [{t:"be",v:"a"},{t:"go",v:"b"},{t:"shine",v:"c"}], ans: "a" },
-          { q: "And in my hour of darkness, she is standing right in _____ of me.", opts: [{t:"front",v:"a"},{t:"back",v:"b"},{t:"side",v:"c"}], ans: "a" },
-          { q: "Speaking words of wisdom, let it _____", opts: [{t:"be",v:"a"},{t:"pass",v:"b"},{t:"flow",v:"c"}], ans: "a" },
-          { q: "There will be an _____.", opts: [{t:"answer",v:"a"},{t:"end",v:"b"},{t:"idea",v:"c"}], ans: "a" }
-        ],
-        part2: [
-          { word: "let it be", opts: [{t:"순리에 맡기다, 그대로 두다",v:"a"},{t:"포기하다",v:"b"},{t:"파괴하다",v:"c"}], ans: "a" },
-          { word: "wisdom", opts: [{t:"지혜",v:"a"},{t:"지식",v:"b"},{t:"어리석음",v:"c"}], ans: "a" },
-          { word: "trouble", opts: [{t:"곤란, 고통",v:"a"},{t:"평화",v:"b"},{t:"기쁨",v:"c"}], ans: "a" },
-          { word: "parted", opts: [{t:"헤어진, 갈라진",v:"a"},{t:"만난",v:"b"},{t:"연결된",v:"c"}], ans: "a" },
-          { word: "cloudy", opts: [{t:"구름 낀, 어두운",v:"a"},{t:"맑은",v:"b"},{t:"화창한",v:"c"}], ans: "a" }
-        ],
-        part3: [
-          { q: "'고난의 시기': Times of _____", ans: "trouble" },
-          { q: "'지혜의 말씀': Words of _____", ans: "wisdom" },
-          { q: "'그대로 두어라/순리에 맡겨라': Let it _____", ans: "be" },
-          { q: "'어둠의 시간': Hour of _____", ans: "darkness" },
-          { q: "'해답이 있을 거야': There will be an _____", ans: "answer" }
-        ],
-        lyrics: [
-          { en: "When I find myself in times of trouble, Mother Mary comes to me, speaking words of wisdom, let it be.", kr: "내가 힘들고 곤란한 시기에 처했을 때, 어머니 마리아가 찾아와 지혜의 말씀을 해주셨죠, 그대로 두라고(순리에 맡기라고)." }
-        ]
-      },
-      {
-        id: "s25",
-        title: "25. John Legend - All of Me",
-        videoId: "450p7goxZqg",
-        part1: [
-          { q: "'Cause all of me loves _____ of you.", opts: [{t:"all",v:"a"},{t:"part",v:"b"},{t:"some",v:"c"}], ans: "a" },
-          { q: "Love your curves and all your _____", opts: [{t:"edges",v:"a"},{t:"lines",v:"b"},{t:"sides",v:"c"}], ans: "a" },
-          { q: "All your perfect _____.", opts: [{t:"imperfections",v:"a"},{t:"features",v:"b"},{t:"mistakes",v:"c"}], ans: "a" },
-          { q: "Give your all to me, I'll give my _____ to you.", opts: [{t:"all",v:"a"},{t:"love",v:"b"},{t:"heart",v:"c"}], ans: "a" },
-          { q: "You're my end and my _____", opts: [{t:"beginning",v:"a"},{t:"start",v:"b"},{t:"future",v:"c"}], ans: "a" }
-        ],
-        part2: [
-          { word: "curves and edges", opts: [{t:"곡선과 모서리(모든 모습)",v:"a"},{t:"단점",v:"b"},{t:"얼굴",v:"c"}], ans: "a" },
-          { word: "imperfections", opts: [{t:"결점, 불완전함",v:"a"},{t:"완벽함",v:"b"},{t:"장점",v:"c"}], ans: "a" },
-          { word: "beginning", opts: [{t:"시작",v:"a"},{t:"끝",v:"b"},{t:"중간",v:"c"}], ans: "a" },
-          { word: "risk it all", opts: [{t:"모든 위험을 무릅쓰다",v:"a"},{t:"포기하다",v:"b"},{t:"안전하게 하다",v:"c"}], ans: "a" },
-          { word: "draw me in", opts: [{t:"나를 끌어당기다",v:"a"},{t:"밀어내다",v:"b"},{t:"그리다",v:"c"}], ans: "a" }
-        ],
-        part3: [
-          { q: "'내 모든 것': All of _____", ans: "me" },
-          { q: "'너의 모든 것': All of _____", ans: "you" },
-          { q: "'완벽한 불완전함': Perfect _____", ans: "imperfections" },
-          { q: "'나의 시작': My _____", ans: "beginning" },
-          { q: "'너에게 내 모든 걸 줄게': Give my _____ to you.", ans: "all" }
-        ],
-        lyrics: [
-          { en: "'Cause all of me loves all of you. Love your curves and all your edges, all your perfect imperfections.", kr: "내 모든 것은 당신의 모든 것을 사랑하니까요. 당신의 아름다운 곡선과 각진 부분들, 그리고 완벽한 불완전함까지도 사랑해요." }
-        ]
-      },
-      {
-        id: "s26",
-        title: "26. Sam Smith - Stay With Me",
-        videoId: "pB-5XG-DbAA",
-        part1: [
-          { q: "Won't you _____ with me?", opts: [{t:"stay",v:"a"},{t:"come",v:"b"},{t:"walk",v:"c"}], ans: "a" },
-          { q: "'Cause you're all I _____", opts: [{t:"need",v:"a"},{t:"want",v:"b"},{t:"have",v:"c"}], ans: "a" },
-          { q: "This ain't love, it's clear to _____", opts: [{t:"see",v:"a"},{t:"know",v:"b"},{t:"feel",v:"c"}], ans: "a" },
-          { q: "But darling, stay with _____", opts: [{t:"me",v:"a"},{t:"him",v:"b"},{t:"us",v:"c"}], ans: "a" },
-          { q: "Guess it's true I'm no good at a one-night _____", opts: [{t:"stand",v:"a"},{t:"stay",v:"b"},{t:"love",v:"c"}], ans: "a" }
-        ],
-        part2: [
-          { word: "stay with me", opts: [{t:"내 곁에 머물러 주다",v:"a"},{t:"떠나가다",v:"b"},{t:"잊으라 하다",v:"c"}], ans: "a" },
-          { word: "clear to see", opts: [{t:"보기에 명확한",v:"a"},{t:"희미한",v:"b"},{t:"비밀스러운",v:"c"}], ans: "a" },
-          { word: "one-night stand", opts: [{t:"하룻밤의 사랑",v:"a"},{t:"영원한 사랑",v:"b"},{t:"첫사랑",v:"c"}], ans: "a" },
-          { word: "leave", opts: [{t:"떠나다",v:"a"},{t:"도착하다",v:"b"},{t:"머무르다",v:"c"}], ans: "a" },
-          { word: "reason", opts: [{t:"이유, 이성",v:"a"},{t:"결과",v:"b"},{t:"감정",v:"c"}], ans: "a" }
-        ],
-        part3: [
-          { q: "'내 곁에 머물러 주겠니': Won't you _____ with me?", ans: "stay" },
-          { q: "'너는 내가 필요한 전부야': You're all I _____", ans: "need" },
-          { q: "'명확하다/분명하다': Clear to _____", ans: "see" },
-          { q: "'이건 사랑이 아니야': This ain't _____", ans: "love" },
-          { q: "'내 곁에 머물러줘': Stay with _____", ans: "me" }
-        ],
-        lyrics: [
-          { en: "Won't you stay with me? 'Cause you're all I need.", kr: "내 곁에 머물러 주지 않을래요? 당신이 내게 필요한 전부이니까요." },
-          { en: "This ain't love, it's clear to see, but darling, stay with me.", kr: "이게 사랑이 아니란 건 명확하지만, 내 사랑, 제발 내 곁에 있어 줘요." }
-        ]
-      },
-      {
-        id: "s27",
-        title: "27. Anne-Marie - 2002",
-        videoId: "Il-an3K9pjg",
-        part1: [
-          { q: "I will always remember the day you kissed my _____", opts: [{t:"lips",v:"a"},{t:"hand",v:"b"},{t:"cheek",v:"c"}], ans: "a" },
-          { q: "Light as a feather or bright as a _____ weather", opts: [{t:"summer",v:"a"},{t:"spring",v:"b"},{t:"sunny",v:"c"}], ans: "a" },
-          { q: "Coated in _____ of gold", opts: [{t:"gold",v:"a"},{t:"silver",v:"b"},{t:"sun",v:"c"}], ans: "a" },
-          { q: "Dancing on the hood in the middle of the _____", opts: [{t:"woods",v:"a"},{t:"street",v:"b"},{t:"park",v:"c"}], ans: "a" },
-          { q: "Singing at the top of our _____", opts: [{t:"lungs",v:"a"},{t:"voice",v:"b"},{t:"heads",v:"c"}], ans: "a" }
-        ],
-        part2: [
-          { word: "feather", opts: [{t:"깃털",v:"a"},{t:"돌",v:"b"},{t:"바람",v:"c"}], ans: "a" },
-          { word: "hood", opts: [{t:"자동차 본넷, 후드",v:"a"},{t:"지붕",v:"b"},{t:"바퀴",v:"c"}], ans: "a" },
-          { word: "top of our lungs", opts: [{t:"목청껏, 목이 터져라",v:"a"},{t:"작은 소리로",v:"b"},{t:"속삭이듯",v:"c"}], ans: "a" },
-          { word: "nostalgia", opts: [{t:"향수, 추억",v:"a"},{t:"두려움",v:"b"},{t:"미래",v:"c"}], ans: "a" },
-          { word: "childhood", opts: [{t:"어린 시절",v:"a"},{t:"어른",v:"b"},{t:"노년",v:"c"}], ans: "a" }
-        ],
-        part3: [
-          { q: "'입술에 키스했던 날': Kissed my _____", ans: "lips" },
-          { q: "'깃털처럼 가벼운': Light as a _____", ans: "feather" },
-          { q: "'여름 날씨': Summer _____", ans: "weather" },
-          { q: "'숲 한가운데': Middle of the _____", ans: "woods" },
-          { q: "'목청껏 노래하며': Singing at the top of our _____", ans: "lungs" }
-        ],
-        lyrics: [
-          { en: "I will always remember the day you kissed my lips, light as a feather.", kr: "깃털처럼 가볍게 내 입술에 키스했던 그날을 난 영원히 기억할 거예요." },
-          { en: "Dancing on the hood in the middle of the woods on an old Mustang where we sang.", kr: "오래된 머스탱 차 위에서, 숲 한가운데서 노래하며 춤추던 우리 모습까지도요." }
-        ]
-      },
-      {
-        id: "s28",
-        title: "28. Rachel Platten - Fight Song",
-        videoId: "xo1VInw-nnM",
-        part1: [
-          { q: "This is my _____ song", opts: [{t:"fight",v:"a"},{t:"love",v:"b"},{t:"life",v:"c"}], ans: "a" },
-          { q: "Take back my _____ song", opts: [{t:"life",v:"a"},{t:"time",v:"b"},{t:"heart",v:"c"}], ans: "a" },
-          { q: "Prove I'm _____ song", opts: [{t:"alright",v:"a"},{t:"strong",v:"b"},{t:"free",v:"c"}], ans: "a" },
-          { q: "My power's turned _____ now", opts: [{t:"on",v:"a"},{t:"off",v:"b"},{t:"up",v:"c"}], ans: "a" },
-          { q: "Starting right now I'll be _____", opts: [{t:"strong",v:"a"},{t:"brave",v:"b"},{t:"free",v:"c"}], ans: "a" }
-        ],
-        part2: [
-          { word: "fight song", opts: [{t:"투혼의 노래, 응원가",v:"a"},{t:"자장가",v:"b"},{t:"이별 노래",v:"c"}], ans: "a" },
-          { word: "take back", opts: [{t:"되찾다",v:"a"},{t:"버리다",v:"b"},{t:"주고 오다",v:"c"}], ans: "a" },
-          { word: "prove", opts: [{t:"증명하다",v:"a"},{t:"의심하다",v:"b"},{t:"감추다",v:"c"}], ans: "a" },
-          { word: "power", opts: [{t:"힘, 능력",v:"a"},{t:"약함",v:"b"},{t:"슬픔",v:"c"}], ans: "a" },
-          { word: "explosion", opts: [{t:"폭발, 분출",v:"a"},{t:"침묵",v:"b"},{t:"평화",v:"c"}], ans: "a" }
-        ],
-        part3: [
-          { q: "'나의 싸움/투혼의 노래': This is my _____ song.", ans: "fight" },
-          { q: "'내 삶을 되찾다': Take back my _____", ans: "life" },
-          { q: "'내가 괜찮다는 걸 증명해': Prove I'm _____", ans: "alright" },
-          { q: "'내 힘이 켜졌어': Power's turned _____", ans: "on" },
-          { q: "'강해질 거야': I'll be _____", ans: "strong" }
-        ],
-        lyrics: [
-          { en: "This is my fight song, take back my life song, prove I'm alright song.", kr: "이건 내 삶을 되찾고, 내가 괜찮다는 걸 증명해 낼 나만의 투혼의 노래예요." },
-          { en: "My power's turned on, starting right now I'll be strong.", kr: "내 안의 힘이 켜졌어요, 지금 이 순간부터 난 강해질 거예요." }
-        ]
-      },
-      {
-        id: "s29",
-        title: "29. Lauv - Paris in the Rain",
-        videoId: "kOCkne-Bku4",
-        part1: [
-          { q: "All I know is we are in love when it's _____ in the rain.", opts: [{t:"Paris",v:"a"},{t:"Seoul",v:"b"},{t:"London",v:"c"}], ans: "a" },
-          { q: "Anywhere with you feels like _____ in the rain.", opts: [{t:"Paris",v:"a"},{t:"home",v:"b"},{t:"heaven",v:"c"}], ans: "a" },
-          { q: "Look at the _____ with me", opts: [{t:"lights",v:"a"},{t:"stars",v:"b"},{t:"rain",v:"c"}], ans: "a" },
-          { q: "Underneath the _____ sky", opts: [{t:"midnight",v:"a"},{t:"cloudy",v:"b"},{t:"dark",v:"c"}], ans: "a" },
-          { q: "Painting pictures of _____", opts: [{t:"us",v:"a"},{t:"love",v:"b"},{t:"you",v:"c"}], ans: "a" }
-        ],
-        part2: [
-          { word: "underneath", opts: [{t:"~의 아래에",v:"a"},{t:"~의 위에",v:"b"},{t:"~의 옆에",v:"c"}], ans: "a" },
-          { word: "midnight", opts: [{t:"한밤중",v:"a"},{t:"아침",v:"b"},{t:"해질녘",v:"c"}], ans: "a" },
-          { word: "paint pictures", opts: [{t:"그림을 그리다, 상상하다",v:"a"},{t:"사진을 찍다",v:"b"},{t:"벽지를 바르다",v:"c"}], ans: "a" },
-          { word: "romantic", opts: [{t:"낭만적인",v:"a"},{t:"지루한",v:"b"},{t:"무서운",v:"c"}], ans: "a" },
-          { word: "drizzle", opts: [{t:"이슬비가 내리다",v:"a"},{t:"폭우가 쏟아지다",v:"b"},{t:"눈이 오다",v:"c"}], ans: "a" }
-        ],
-        part3: [
-          { q: "'비 내리는 파리': _____ in the rain.", ans: "paris" },
-          { q: "'어디든': _____ with you.", ans: "anywhere" },
-          { q: "'한밤중의 하늘': Underneath the _____ sky.", ans: "midnight" },
-          { q: "'우리의 그림을 그리며': Painting pictures of _____", ans: "us" },
-          { q: "'사랑에 빠진': We are in _____", ans: "love" }
-        ],
-        lyrics: [
-          { en: "All I know is we are in love when it's Paris in the rain.", kr: "내가 아는 전부는 비 내리는 파리에 있을 때 우리가 사랑에 빠져있다는 사실이에요." },
-          { en: "Anywhere with you feels like Paris in the rain.", kr: "당신과 함께라면 어디에 있든 비 내리는 파리처럼 낭만적으로 느껴져요." }
-        ]
-      },
-      {
-        id: "s30",
-        title: "30. Wiz Khalifa ft. Charlie Puth - See You Again",
-        videoId: "RgKAFK5djSk",
-        part1: [
-          { q: "It's been a long day without you, my _____", opts: [{t:"friend",v:"a"},{t:"love",v:"b"},{t:"brother",v:"c"}], ans: "a" },
-          { q: "And I'll tell you all about it when I _____ you again.", opts: [{t:"see",v:"a"},{t:"meet",v:"b"},{t:"call",v:"c"}], ans: "a" },
-          { q: "We've come a long way from where we _____", opts: [{t:"began",v:"a"},{t:"started",v:"b"},{t:"met",v:"c"}], ans: "a" },
-          { q: "Oh, I'll tell you all about it when I see you _____", opts: [{t:"again",v:"a"},{t:"today",v:"b"},{t:"there",v:"c"}], ans: "a" },
-          { q: "How can we not talk about _____", opts: [{t:"family",v:"a"},{t:"friends",v:"b"},{t:"memories",v:"c"}], ans: "a" }
-        ],
-        part2: [
-          { word: "see you again", opts: [{t:"너를 다시 만나다",v:"a"},{t:"헤어지다",v:"b"},{t:"잊어버리다",v:"c"}], ans: "a" },
-          { word: "long way", opts: [{t:"먼 길, 먼 여정",v:"a"},{t:"짧은 길",v:"b"},{t:"쉬운 길",v:"c"}], ans: "a" },
-          { word: "family", opts: [{t:"가족, 식구",v:"a"},{t:"타인",v:"b"},{t:"적",v:"c"}], ans: "a" },
-          { word: "brotherhood", opts: [{t:"형제애",v:"a"},{t:"우정",v:"b"},{t:"경쟁",v:"c"}], ans: "a" },
-          { word: "bond", opts: [{t:"유대감, 끈",v:"a"},{t:"단절",v:"b"},{t:"벽",v:"c"}], ans: "a" }
-        ],
-        part3: [
-          { q: "'내 친구': My _____", ans: "friend" },
-          { q: "'너를 다시 만날 때': When I _____ you again.", ans: "see" },
-          { q: "'우리가 시작했던 곳': Where we _____", ans: "began" },
-          { q: "'다시': See you _____", ans: "again" },
-          { q: "'가족': Talk about _____", ans: "family" }
-        ],
-        lyrics: [
-          { en: "It's been a long day without you, my friend, and I'll tell you all about it when I see you again.", kr: "내 친구여, 네가 없이 참 긴 하루였어, 너를 다시 만날 때 그동안 못다 한 이야기를 모두 해줄게." },
-          { en: "We've come a long way from where we began, oh, I'll tell you all about it when I see you again.", kr: "우리가 시작했던 곳에서 정말 멀리까지 함께 걸어왔네, 너를 다시 만날 때 꼭 다 얘기해 줄게." }
         ]
       },
       {
@@ -1101,13 +269,10 @@
         lyrics: [
           { en: "Every breath you take and every move you make", kr: "당신이 쉬는 모든 숨과 당신이 하는 모든 움직임" },
           { en: "Every bond you break, every step you take, I'll be watching you.", kr: "당신이 깨뜨리는 모든 유대와 당신이 딛는 모든 걸음, 내가 당신을 지켜보고 있을 거예요." },
-          { en: "Every single day and every word you say", kr: "매일매일과 당신이 하는 모든 말" },
-          { en: "Every game you play, every night you stay, I'll be watching you.", kr: "당신이 하는 모든 게임과 당신이 머무는 모든 밤, 내가 당신을 지켜보고 있을 거예요." },
           { en: "Oh, can't you see you belong to me?", kr: "오, 당신이 내 것이라는 걸 모르겠나요?" },
           { en: "How my poor heart aches with every step you take.", kr: "당신이 걸음을 뗠 때마다 내 가난한 심장이 얼마나 아픈지." }
         ]
       }
-      // 📌 30~50곡 이상으로 확장 시 위의 동일한 구조로 객체를 계속해서 덧붙이면 됩니다.
     ];
 
     function initSongSelect() {
@@ -1118,22 +283,39 @@
         "1. Bruno Mars - Count on Me",
         "2. Michael Jackson - Heal the World",
         "3. Air Supply - Making Love Out of Nothing at All",
-        "4. Westlife - You Raise Me Up", "5. Backstreet Boys - As Long As You Love Me",
-        "6. Maroon 5 - Memories", "7. Justin Bieber - Love Yourself", "8. Daniel Caesar - Best Part",
-        "9. Lukas Graham - 7 Years", "10. Charlie Puth - One Call Away", "11. Taylor Swift - You Belong With Me",
-        "12. Ed Sheeran - Perfect", "13. Coldplay - Viva La Vida", "14. Queen - Don't Stop Me Now",
-        "15. Shawn Mendes - Treat You Better", "16. One Direction - What Makes You Beautiful",
-        "17. Alessia Cara - Scars To Your Beautiful", "18. Jason Mraz - I'm Yours", "19. Billie Eilish - ocean eyes",
-        "20. Imagine Dragons - Demons", "21. Avicii - The Nights", "22. Kelly Clarkson - Stronger",
-        "23. Katy Perry - Firework", "24. The Beatles - Let It Be", "25. John Legend - All of Me",
-        "26. Sam Smith - Stay With Me", "27. Anne-Marie - 2002", "28. Rachel Platten - Fight Song",
-        "29. Lauv - Paris in the Rain", "30. Wiz Khalifa ft. Charlie Puth - See You Again",
+        "4. Westlife - You Raise Me Up", 
+        "5. Backstreet Boys - As Long As You Love Me",
+        "6. Maroon 5 - Memories", 
+        "7. Justin Bieber - Love Yourself", 
+        "8. Daniel Caesar - Best Part",
+        "9. Lukas Graham - 7 Years", 
+        "10. Charlie Puth - One Call Away", 
+        "11. Taylor Swift - You Belong With Me",
+        "12. Ed Sheeran - Perfect", 
+        "13. Coldplay - Viva La Vida", 
+        "14. Queen - Don't Stop Me Now",
+        "15. Shawn Mendes - Treat You Better", 
+        "16. One Direction - What Makes You Beautiful",
+        "17. Alessia Cara - Scars To Your Beautiful", 
+        "18. Jason Mraz - I'm Yours", 
+        "19. Billie Eilish - ocean eyes",
+        "20. Imagine Dragons - Demons", 
+        "21. Avicii - The Nights", 
+        "22. Kelly Clarkson - Stronger",
+        "23. Katy Perry - Firework", 
+        "24. The Beatles - Let It Be", 
+        "25. John Legend - All of Me",
+        "26. Sam Smith - Stay With Me", 
+        "27. Anne-Marie - 2002", 
+        "28. Rachel Platten - Fight Song",
+        "29. Lauv - Paris in the Rain", 
+        "30. Wiz Khalifa ft. Charlie Puth - See You Again",
         "31. The Police - Every Breath You Take"
       ];
 
       songTitles.forEach((title, index) => {
         const opt = document.createElement("option");
-        opt.value = index < songDatabase.length ? songDatabase[index].id : songDatabase[0].id;
+        opt.value = `s${index + 1}`;
         opt.innerText = title;
         select.appendChild(opt);
       });
@@ -1143,17 +325,52 @@
 
     let currentSongData = null;
 
-    function loadSongData() {
+    function loadSongData(e) {
+      if (e) e.preventDefault();
+
       const select = document.getElementById("songSelect");
       const selectedId = select.value;
+      const selectedTitle = select.options[select.selectedIndex].text;
 
-      currentSongData = songDatabase.find(s => s.id === selectedId) || songDatabase[0];
+      const foundSong = songDatabase.find(s => s.id === selectedId);
+
+      if (foundSong) {
+        currentSongData = foundSong;
+      } else {
+        currentSongData = {
+          id: selectedId,
+          title: selectedTitle,
+          videoId: "",
+          part1: [],
+          part2: [],
+          part3: [],
+          lyrics: []
+        };
+      }
 
       document.getElementById("songYoutubeLink").href = `https://www.youtube.com/results?search_query=${encodeURIComponent(currentSongData.title + " lyric video")}`;
-      document.getElementById("songThumbnail").src = `https://img.youtube.com/vi/${currentSongData.videoId}/hqdefault.jpg`;
+      
+      if (currentSongData.videoId) {
+        document.getElementById("songThumbnail").src = `https://img.youtube.com/vi/${currentSongData.videoId}/hqdefault.jpg`;
+      } else {
+        document.getElementById("songThumbnail").src = `https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800&q=80`;
+      }
 
-      // Part 1 동적 생성 (객관식 5문항)
       const p1Box = document.getElementById("part1Container");
+      const p2Box = document.getElementById("part2Container");
+      const p3Box = document.getElementById("part3Container");
+      const lBox = document.getElementById("lyricsContainer");
+
+      if (!foundSong) {
+        const prepareMsg = `<p class="text-sm font-medium text-amber-600 bg-amber-50 p-4 rounded-lg border border-amber-200">⚠️ 현재 곡은 학습 문제가 준비 중입니다. 상단 버튼을 눌러 노래를 먼저 감상해 보세요!</p>`;
+        p1Box.innerHTML = prepareMsg;
+        p2Box.innerHTML = prepareMsg;
+        p3Box.innerHTML = prepareMsg;
+        lBox.innerHTML = prepareMsg;
+        document.getElementById("postSubmitLyrics").classList.add("hidden");
+        return;
+      }
+
       p1Box.innerHTML = "";
       currentSongData.part1.forEach((item, idx) => {
         let optsHtml = `<option value="">-- 선택하세요 --</option>`;
@@ -1171,8 +388,6 @@
         `;
       });
 
-      // Part 2 동적 생성 (어휘 5문항)
-      const p2Box = document.getElementById("part2Container");
       p2Box.innerHTML = "";
       currentSongData.part2.forEach((item, idx) => {
         let optsHtml = `<option value="">-- 선택하세요 --</option>`;
@@ -1190,8 +405,6 @@
         `;
       });
 
-      // Part 3 동적 생성 (Dictation & Key Expressions 5문항)
-      const p3Box = document.getElementById("part3Container");
       p3Box.innerHTML = "";
       currentSongData.part3.forEach((item, idx) => {
         p3Box.innerHTML += `
@@ -1203,8 +416,6 @@
         `;
       });
 
-      // 제출 후 가사 전체 원문 및 해석 동적 생성
-      const lBox = document.getElementById("lyricsContainer");
       lBox.innerHTML = "";
       currentSongData.lyrics.forEach((item, idx) => {
         lBox.innerHTML += `
@@ -1227,25 +438,23 @@
 
       const studentId = document.getElementById("studentId").value.trim();
       const studentName = document.getElementById("studentName").value.trim();
+      const classCode = document.getElementById("classCode").value;
       const reflection = document.getElementById("reflection").value.trim();
 
       let score = 0;
-      const totalQuestions = currentSongData.part1.length + currentSongData.part2.length + currentSongData.part3.length; // 총 15문항
-      const pointsPerQ = 100 / totalQuestions; // 문항당 약 6.66점
+      const totalQuestions = currentSongData.part1.length + currentSongData.part2.length + currentSongData.part3.length;
+      const pointsPerQ = totalQuestions > 0 ? 100 / totalQuestions : 0;
 
-      // Part 1 채점
       currentSongData.part1.forEach((item, idx) => {
         const userAns = document.getElementById(`q${idx+1}`).value;
         if (userAns === item.ans) score += pointsPerQ;
       });
 
-      // Part 2 채점
       currentSongData.part2.forEach((item, idx) => {
         const userAns = document.getElementById(`v${idx+1}`).value;
         if (userAns === item.ans) score += pointsPerQ;
       });
 
-      // Part 3 채점 (공백 및 대소문자 정규화 후 비교)
       currentSongData.part3.forEach((item, idx) => {
         const userAns = document.getElementById(`d${idx+1}`).value.trim().toLowerCase().replace(/\s+/g, ' ');
         const targetAns = item.ans.toLowerCase().replace(/\s+/g, ' ');
@@ -1257,6 +466,7 @@
       const payload = {
         student_id: studentId,
         student_name: studentName,
+        class_code: classCode,
         song_title: currentSongData.title,
         score: finalScore,
         reflection: reflection,
@@ -1265,12 +475,10 @@
 
       alert(`제출이 완료되었습니다!\n(내 점수: ${finalScore}점 / 100점)\n\n하단에서 정답과 전체 가사 해석을 확인하세요.`);
 
-      // 정답 노출
       currentSongData.part1.forEach((_, idx) => document.getElementById(`ans-q${idx+1}`).classList.remove("hidden"));
       currentSongData.part2.forEach((_, idx) => document.getElementById(`ans-v${idx+1}`).classList.remove("hidden"));
       currentSongData.part3.forEach((_, idx) => document.getElementById(`ans-d${idx+1}`).classList.remove("hidden"));
 
-      // 전체 가사 해석 노출
       const postSubmitLyrics = document.getElementById("postSubmitLyrics");
       postSubmitLyrics.classList.remove("hidden");
       postSubmitLyrics.scrollIntoView({ behavior: "smooth" });
