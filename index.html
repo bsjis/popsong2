@@ -58,8 +58,8 @@
           <div>
             <label for="levelSelect" class="block text-sm font-bold text-indigo-950 mb-1">🎯 학습 난이도 선택</label>
             <select id="levelSelect" onchange="loadSongData(event)" class="w-full px-4 py-2 border border-indigo-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none transition bg-white text-slate-800 font-medium">
-              <option value="level1">🌱 레벨 1</option>
-              <option value="level2">🌿 레벨 2</option>
+              <option value="level1">🌱 레벨 1: 기본 (핵심 5개 어휘 반복 집중 학습)</option>
+              <option value="level2">🌿 레벨 2: 심화 (15개 서로 다른 어휘 도전 학습)</option>
             </select>
           </div>
         </div>
@@ -154,21 +154,44 @@
   <script>
     const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbyqyfzcqPBxrmec11dXXMwYJvoiR-z6bJcjw_WrGZydDVbPgJ0GM3nUUZRMNhyBBTbk7w/exec";
 
-    // 수준별 생성 함수 (Level 1: 5개 단어 반복 복습 / Level 2: 15개 서로 다른 단어)
     function buildDifferentiatedSong(id, title, videoId, level1Vocab, level2Vocab, lyricsData) {
       return {
         id: id,
         title: title,
         videoId: videoId,
         level1: {
-          part1: level1Vocab.map(v => ({ q: `가사 속 알맞은 어휘: [${v.word}]`, opts: [{t: v.word, v: "a"}, {t: v.w1||"never", v: "b"}, {t: v.w2||"always", v: "c"}], ans: "a" })),
-          part2: level1Vocab.map(v => ({ word: v.word, opts: [{t: v.meaning, v: "a"}, {t: v.m1||"슬픔", v: "b"}, {t: v.m2||"기쁨", v: "c"}], ans: "a" })),
-          part3: level1Vocab.map(v => ({ q: `'${v.meaning}'를 뜻하는 영단어를 쓰세요:`, ans: v.word }))
+          // Part 1: 실제 가사 문장 형태(Listening Gap-Fill)로 변경
+          part1: level1Vocab.map(v => ({
+            q: v.sentence ? v.sentence : `Listen carefully and fill in the blank: "... _____ ..."`,
+            opts: [{t: v.word, v: "a"}, {t: v.w1||"never", v: "b"}, {t: v.w2||"always", v: "c"}],
+            ans: "a"
+          })),
+          part2: level1Vocab.map(v => ({
+            word: v.word,
+            opts: [{t: v.meaning, v: "a"}, {t: v.m1||"슬픔", v: "b"}, {t: v.m2||"기쁨", v: "c"}],
+            ans: "a"
+          })),
+          part3: level1Vocab.map(v => ({
+            q: `'${v.meaning}'를 뜻하는 가사 속 영단어를 입력하세요:`,
+            ans: v.word
+          }))
         },
         level2: {
-          part1: level2Vocab.slice(0, 5).map(v => ({ q: `가사 빈칸 어휘: [${v.word}]`, opts: [{t: v.word, v: "a"}, {t: v.w1||"false", v: "b"}, {t: v.w2||"true", v: "c"}], ans: "a" })),
-          part2: level2Vocab.slice(5, 10).map(v => ({ word: v.word, opts: [{t: v.meaning, v: "a"}, {t: v.m1||"오답", v: "b"}, {t: v.m2||"반대말", v: "c"}], ans: "a" })),
-          part3: level2Vocab.slice(10, 15).map(v => ({ q: `'${v.meaning}'를 뜻하는 영단어를 쓰세요:`, ans: v.word }))
+          // Part 1: 심화용 가사 문장 형태
+          part1: level2Vocab.slice(0, 5).map(v => ({
+            q: v.sentence ? v.sentence : `Listen carefully and fill in the blank: "... _____ ..."`,
+            opts: [{t: v.word, v: "a"}, {t: v.w1||"false", v: "b"}, {t: v.w2||"true", v: "c"}],
+            ans: "a"
+          })),
+          part2: level2Vocab.slice(5, 10).map(v => ({
+            word: v.word,
+            opts: [{t: v.meaning, v: "a"}, {t: v.m1||"오답", v: "b"}, {t: v.m2||"반대말", v: "c"}],
+            ans: "a"
+          })),
+          part3: level2Vocab.slice(10, 15).map(v => ({
+            q: `'${v.meaning}'를 뜻하는 가사 속 영단어를 입력하세요:`,
+            ans: v.word
+          }))
         },
         lyrics: lyricsData
       };
@@ -201,18 +224,25 @@
       const vId = videoIds[index] || "Yc6T9iY9lOU";
       
       const l1 = [
-        {word:"heart",meaning:"마음, 심장"},{word:"dream",meaning:"꿈, 소망"},
-        {word:"light",meaning:"빛, 희망"},{word:"forever",meaning:"영원히"},{word:"love",meaning:"사랑"}
+        {word:"heart", meaning:"마음, 심장", sentence:"There is a place in your _____, and I know that it is love."},
+        {word:"dream", meaning:"꿈, 소망", sentence:"I can make all your _____ come true tonight."},
+        {word:"light", meaning:"빛, 희망", sentence:"I'll be the _____ to guide you in the dark."},
+        {word:"forever", meaning:"영원히", sentence:"I want to stay with you _____ and ever."},
+        {word:"love", meaning:"사랑", sentence:"All you need is _____ to heal the world."}
       ];
 
       const l2 = [
-        {word:"heart",meaning:"마음"},{word:"dream",meaning:"꿈"},{word:"light",meaning:"빛"},{word:"forever",meaning:"영원히"},{word:"love",meaning:"사랑"},
-        {word:"truth",meaning:"진실"},{word:"voice",meaning:"목소리"},{word:"smile",meaning:"미소"},{word:"tear",meaning:"눈물"},{word:"hope",meaning:"희망"},
-        {word:"stay",meaning:"머물다"},{word:"shine",meaning:"빛나다"},{word:"fly",meaning:"날다"},{word:"raise",meaning:"일으키다"},{word:"stand",meaning:"서다"}
+        {word:"heart", meaning:"마음", sentence:"There is a place in your _____."},
+        {word:"dream", meaning:"꿈", sentence:"Make all your _____ come true."},
+        {word:"light", meaning:"빛", sentence:"I'll be the _____ to guide you."},
+        {word:"forever", meaning:"영원히", sentence:"Stay with you _____."},
+        {word:"love", meaning:"사랑", sentence:"All you need is _____."},
+        {word:"truth", meaning:"진실"},{word:"voice", meaning:"목소리"},{word:"smile", meaning:"미소"},{word:"tear", meaning:"눈물"},{word:"hope", meaning:"희망"},
+        {word:"stay", meaning:"머물다"},{word:"shine", meaning:"빛나다"},{word:"fly", meaning:"날다"},{word:"raise", meaning:"일으키다"},{word:"stand", meaning:"서다"}
       ];
 
       const lyrics = [
-        {en:`Listen to "${title}" and enjoy the song.`, kr:`"${title}" 노래를 감상하며 가사 표현을 익혀보세요.`},
+        {en:`Listen to "${title}" and enjoy the lyrics.`, kr:`"${title}" 노래를 감상하며 가사 표현을 익혀보세요.`},
         {en:"Music brings us all together in peace and harmony.", kr:"음악은 평화와 조화 속에서 우리 모두를 하나로 모아줍니다."}
       ];
 
